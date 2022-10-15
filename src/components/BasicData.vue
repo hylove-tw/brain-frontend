@@ -18,6 +18,7 @@ const props = defineProps({
 })
 
 function getBrainFeatures() {
+  // test data
   const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
@@ -46,8 +47,7 @@ function getBrainFeatures() {
       "High Gamma": props.brainData.highGamma.after,
     }
   }
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
-  // axios.post('/analysis/brainFeatures')
+  // path: /analysis/brain_features
   axios.post('/analysis/brain_features', payload).then((res) => {
     factors.value = res.data
   }).catch((err) => {

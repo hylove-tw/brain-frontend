@@ -78,9 +78,10 @@ const talentData = ref()
 const props = defineProps({
   brainData: Object
 })
+
 function getTalentData() {
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
-  axios.post('/talent', {
+  // test data
+  const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
       "Attention": props.brainData.attention.before,
@@ -107,7 +108,10 @@ function getTalentData() {
       "Low Gamma": props.brainData.lowGamma.after,
       "High Gamma": props.brainData.highGamma.after,
     }
-  }).then((res) => {
+  }
+
+  // ptah: /talent
+  axios.post('/talent', payload).then((res) => {
     talentData.value = res.data
   }).catch((err) => {
     console.error(err)

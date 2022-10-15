@@ -107,9 +107,8 @@ const props = defineProps({
 
 
 function getMindfulnessData() {
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
-  // axios.post('/mindfulness')
-  axios.post('/mindfulness', {
+  // test data
+  const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
       "Attention": props.brainData.attention.before,
@@ -136,7 +135,9 @@ function getMindfulnessData() {
       "Low Gamma": props.brainData.lowGamma.after,
       "High Gamma": props.brainData.highGamma.after,
     }
-  }).then((res) => {
+  }
+  // path: /mindfulness
+  axios.post('/mindfulness', payload).then((res) => {
     mindfulnessData.value = res.data
     console.log(mindfulnessData.value)
   }).catch((err) => {

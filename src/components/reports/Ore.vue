@@ -77,9 +77,8 @@ const props = defineProps({
 })
 
 function getOreData() {
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
-  // axios.post('/ore')
-  axios.post('/ore', {
+  // test data
+  const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
       "Attention": props.brainData.attention.before,
@@ -106,7 +105,10 @@ function getOreData() {
       "Low Gamma": props.brainData.lowGamma.after,
       "High Gamma": props.brainData.highGamma.after,
     }
-  }).then((res) => {
+  }
+  
+  // path: /ore
+  axios.post('/ore', payload).then((res) => {
     oreData.value = res.data
   }).catch((err) => {
     console.error(err)

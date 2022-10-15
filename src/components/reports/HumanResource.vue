@@ -87,6 +87,7 @@ const props = defineProps({
   brainData: Object
 })
 function getHumanResourceData() {
+  // test data
   const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
@@ -115,7 +116,8 @@ function getHumanResourceData() {
       "High Gamma": props.brainData.highGamma.after,
     }
   }
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
+
+  // path: /human_resource_data
   axios.post('/human_resource_data', payload).then((res) => {
     humanResourceData.value = res.data
   }).catch((err) => {

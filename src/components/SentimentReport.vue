@@ -116,9 +116,8 @@ function parseOption(factors) {
 }
 
 function getSentiment() {
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
-  // axios.post('/analysis/sentiment')
-  axios.post('/analysis/sentiment', {
+  // test data
+  const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
       "Attention": props.brainData.attention.before,
@@ -145,7 +144,10 @@ function getSentiment() {
       "Low Gamma": props.brainData.lowGamma.after,
       "High Gamma": props.brainData.highGamma.after,
     }
-  }).then((res) => {
+  }
+
+  // path: /analysis/sentiment
+  axios.post('/analysis/sentiment', payload).then((res) => {
     factors.value = res.data
   }).catch((err) => {
     console.error(err)

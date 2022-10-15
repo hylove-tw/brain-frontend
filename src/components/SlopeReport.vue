@@ -132,9 +132,8 @@ const props = defineProps({
 })
 
 function getSlopes() {
-  // 實際跟Server串接的時候換成下面這行，因為main.js有設定axios的baseURL了
-  // axios.post('/analysis/slope')
-  axios.post('/analysis/slope', {
+  // test data
+  const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
       "Attention": props.brainData.attention.before,
@@ -161,7 +160,10 @@ function getSlopes() {
       "Low Gamma": props.brainData.lowGamma.after,
       "High Gamma": props.brainData.highGamma.after,
     }
-  }).then((res) => {
+  }
+  
+  // path: /analysis/slope
+  axios.post('/analysis/slope', payload).then((res) => {
     factors.value = res.data
   }).catch((err) => {
     console.error(err)
