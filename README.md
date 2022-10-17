@@ -34,3 +34,36 @@ npm run dev
 ```shell
 npm run build
 ```
+
+## API Spec
+All api endpoints use same request body as following json data.
+```json
+# request body
+"beforeBrainData": {
+      "Good Signal Quality(0-100)": [int], 
+      "Attention": [int], 
+      "Meditation": [int], 
+      "Delta": [int], 
+      "Theta": [int], 
+      "Low Alpha": [int], 
+      "High Alpha": [int], 
+      "Low Beta": [int], 
+      "High Beta": [int], 
+      "Low Gamma": [int], 
+      "High Gamma": [int], 
+    },
+    "afterBrainData": {
+      "Good Signal Quality(0-100)": [int], 
+      "Attention": [int], 
+      "Meditation": [int], 
+      "Delta": [int], 
+      "Theta": [int], 
+      "Low Alpha": [int], 
+      "High Alpha": [int], 
+      "Low Beta": [int], 
+      "High Beta": [int], 
+      "Low Gamma": [int], 
+      "High Gamma": [int], 
+    }
+```
+
