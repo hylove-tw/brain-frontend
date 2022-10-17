@@ -65,7 +65,7 @@ All api endpoints use same request body like following json data.
       "High Gamma": [int], 
     }
 ```
-## Apis
+## Endpoints
 ### 基本分析特徵
 - 腦波圖表 /analysis/brain_features
 - 比較數值 /analysis/compared_feature
