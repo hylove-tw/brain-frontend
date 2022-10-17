@@ -173,3 +173,21 @@ All api endpoints use same request body like following json data.
 }
 ]
 ```
+### Ore 礦物結晶驗證模式
+- Method: POST
+- Path: /ore
+- response
+```
+{
+    "delta":"該結晶體對靈性修行增強幫助無變化",
+    "theta":"該結晶體對靈感與創作力增強沒有幫助",
+    "lowAlpha":"該結晶體對心靈放鬆與創作力沒有幫助",
+    "highAlpha":"該結晶體對創新與專注力沒有幫助",
+    "lowBeta":"該結晶體對思考與執行力非常有幫助",
+    "highBeta":"該結晶體對激動與焦慮降壓明顯有幫助",
+    "lowGamma":"該結晶體對降低煩躁與憂鬱非常有幫助",
+    "highGamma":"該結晶體對減壓與放鬆心情非常有幫助"
+}
+```
+
+由於資料量大與版面篇幅，詳細回傳資料可參考瀏覽器的「檢查」>「網路」查看範例資料格式，也可搭配原始碼查看網頁資料呈現方式。
