@@ -67,9 +67,9 @@ All api endpoints use same request body like following json data.
 ```
 ### Basic raw data
 基本特徵數值與折線圖資料
-Method: POST
-Path: /analysis/brain_features
-response:
+- Method: POST
+- Path: /analysis/brain_features
+- response:
 ```
 [
 {
@@ -124,4 +124,52 @@ response:
 }
 ]
 }
+```
+### Compared data
+前後測數值比較
+- Method: POST
+- Path: /analysis/compared_features
+- response:
+```
+[
+{
+"name":"attention",
+"comparedData":{
+"avg":{
+"before":float,
+"after":float,
+"beforeAfter":float,
+"afterBefore":float
+},
+"amplitude":{
+"before":float,
+"after":float
+},
+"amplitudeAvg":{
+"before":float,
+"after":float
+}
+}
+},
+...
+{
+"name":"highGamma",
+"comparedData":{
+"avg":{
+"before":float,
+"after":float,
+"beforeAfter":float,
+"afterBefore":float
+},
+"amplitude":{
+"before":float,
+"after":float
+},
+"amplitudeAvg":{
+"before":float,
+"after":float
+}
+}
+}
+]
 ```
