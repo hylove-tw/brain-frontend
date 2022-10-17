@@ -65,6 +65,21 @@ All api endpoints use same request body like following json data.
       "High Gamma": [int], 
     }
 ```
+## Apis
+### 基本分析特徵
+- 腦波圖表 /analysis/brain_features
+- 比較數值 /analysis/compared_feature
+- 斜率變化 /analysis/slope
+- 數位定義 /analysis/digital_feature
+- 情緒 /analysis/sentiment
+
+### 分析報告
+- 礦物結晶驗證模式 /ore
+- 正念修行驗證模式 /mindfulness
+- H.R評估參考模式 /human_resource_data
+- 天賦潛能評估模式 /talent
+
+由於資料量大與版面篇幅，以下舉幾個範例，其餘詳細回傳資料可參考瀏覽器的「檢查」>「網路」查看範例資料格式，也可搭配原始碼查看網頁資料呈現方式。
 ### Basic raw data
 基本特徵數值與折線圖資料
 - Method: POST
@@ -189,5 +204,3 @@ All api endpoints use same request body like following json data.
     "highGamma":"該結晶體對減壓與放鬆心情非常有幫助"
 }
 ```
-
-由於資料量大與版面篇幅，詳細回傳資料可參考瀏覽器的「檢查」>「網路」查看範例資料格式，也可搭配原始碼查看網頁資料呈現方式。
