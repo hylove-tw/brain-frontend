@@ -37,7 +37,7 @@ npm run build
 
 ## API Spec
 All api endpoints use same request body like following json data. 
-```json
+```javascript
 "beforeBrainData": {
       "Good Signal Quality(0-100)": [int], 
       "Attention": [int], 
@@ -70,7 +70,7 @@ All api endpoints use same request body like following json data.
 Method: POST
 Path: /analysis/brain_features
 response:
-```json
+```javascript
 [
 {
 "name":"attention",
