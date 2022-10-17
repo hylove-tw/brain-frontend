@@ -70,22 +70,22 @@ All api endpoints use same request body like following json data.
 Method: POST
 Path: /analysis/brain_features
 response:
-```javascript
+```
 [
 {
 "name":"attention",
 "data":[
 {
 "name":"前測",
-"avg":77.3,
-"amplitude":9.347,
-"series":[]
+"avg":float,
+"amplitude":float,
+"series":[[int, int], ...]
 },
 {
 "name":"後測",
-"avg":75.7,
-"amplitude":9.3,
-"series":[]
+"avg":float,
+"amplitude":float,
+"series":[[int, int], ...]
 }
 ]
 },
@@ -94,15 +94,15 @@ response:
 "data":[
 {
 "name":"前測",
-"avg":30.967,
-"amplitude":11.649,
-"series":[]
+"avg":float,
+"amplitude":float,
+"series":[[int, int], ...]
 },
 {
 "name":"後測",
-"avg":32.733,
-"amplitude":18.552,
-"series":[]
+"avg":float,
+"amplitude":float,
+"series":[[int, int], ...]
 }
 ]
 },
@@ -112,15 +112,15 @@ response:
 "data":[
 {
 "name":"前測",
-"avg":30.967,
-"amplitude":11.649,
-"series":[]
+"avg":float,
+"amplitude":float,
+"series":[[int, int], ...]
 },
 {
 "name":"後測",
-"avg":32.733,
-"amplitude":18.552,
-"series":[]
+"avg":float,
+"amplitude":float,
+"series":[[int, int], ...]
 }
 ]
 }
