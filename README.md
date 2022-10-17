@@ -36,9 +36,8 @@ npm run build
 ```
 
 ## API Spec
-All api endpoints use same request body as following json data.
+All api endpoints use same request body like following json data. 
 ```json
-# request body
 "beforeBrainData": {
       "Good Signal Quality(0-100)": [int], 
       "Attention": [int], 
@@ -66,4 +65,63 @@ All api endpoints use same request body as following json data.
       "High Gamma": [int], 
     }
 ```
-
+### Basic raw data
+基本特徵數值與折線圖資料
+Method: POST
+Path: /analysis/brain_features
+response:
+```json
+[
+{
+"name":"attention",
+"data":[
+{
+"name":"前測",
+"avg":77.3,
+"amplitude":9.347,
+"series":[]
+},
+{
+"name":"後測",
+"avg":75.7,
+"amplitude":9.3,
+"series":[]
+}
+]
+},
+{
+"name":"meditation",
+"data":[
+{
+"name":"前測",
+"avg":30.967,
+"amplitude":11.649,
+"series":[]
+},
+{
+"name":"後測",
+"avg":32.733,
+"amplitude":18.552,
+"series":[]
+}
+]
+},
+...
+{
+"name":"low gamma",
+"data":[
+{
+"name":"前測",
+"avg":30.967,
+"amplitude":11.649,
+"series":[]
+},
+{
+"name":"後測",
+"avg":32.733,
+"amplitude":18.552,
+"series":[]
+}
+]
+}
+```
