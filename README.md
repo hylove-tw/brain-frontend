@@ -80,6 +80,7 @@ All api endpoints use same request body like following json data.
 - 天賦潛能評估模式 /talent
 
 由於資料量大與版面篇幅，以下舉幾個範例，其餘詳細回傳資料可參考瀏覽器的「檢查」>「網路」查看範例資料格式，也可搭配原始碼查看網頁資料呈現方式。
+
 ### Basic raw data
 基本特徵數值與折線圖資料
 - Method: POST
@@ -204,3 +205,4 @@ All api endpoints use same request body like following json data.
     "highGamma":"該結晶體對減壓與放鬆心情非常有幫助"
 }
 ```
+由於資料量大與版面篇幅，詳細回傳資料可參考瀏覽器的「檢查」>「網路」查看範例資料格式，也可搭配原始碼查看網頁資料呈現方式。

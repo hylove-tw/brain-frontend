@@ -81,7 +81,27 @@ const steps = ref([
   ['name', 'gender', 'age'],
   ['fileInput', 'afterDataInput']
 ])
-const fields = ref({
+const fields = computed(() => {
+  return getNewFields()
+})
+
+const brainDataRow = ref(null)
+const submitted = ref(false)
+const isCheckedForm = ref(false)
+const skipValidate = ref(true)
+const showModal = ref(false)
+const errors = ref({})
+const file = ref()
+
+const dataRowList = computed(() => store.getters.dataRowList)
+const isSubmitted = computed(() => store.getters.isSubmitted)
+const currentStep = computed(() => store.getters.currentStep)
+const subMode = computed(() => store.getters.subMode)
+const totalSteps = computed(() => steps.value.length)
+const isFirstStep = computed(() => currentStep.value === 0)
+const isLastStep = computed(() => currentStep.value === totalSteps.value - 1)
+const fieldErrors = computed(() => errors.value)
+const emptyFields = {
   subMode: {
     label: '模式',
     fieldValue: '正念修行驗證模式',
@@ -96,13 +116,13 @@ const fields = ref({
   },
   email: {
     label: '電子信箱',
-    fieldValue: '',
+    fieldValue: 'example@hylove.com.tw',
     type: 'text',
     required: false
   },
   gender: {
     label: '性別',
-    fieldValue: '',
+    fieldValue: '男性',
     type: 'select',
     options: {
       1: '男性',
@@ -113,7 +133,7 @@ const fields = ref({
   },
   age: {
     label: '年齡',
-    fieldValue: '',
+    fieldValue: 18,
     type: 'number',
     required: false
   },
@@ -131,27 +151,16 @@ const fields = ref({
     onChangeFunc: loadAfterData,
     required: false
   }
-})
-const brainDataRow = ref(null)
-const submitted = ref(false)
-const isCheckedForm = ref(false)
-const skipValidate = ref(true)
-const showModal = ref(false)
-const errors = ref({})
-const file = ref()
-
-const dataRowList = computed(() => store.getters.dataRowList)
-const isSubmitted = computed(() => store.getters.isSubmitted)
-const currentStep = computed(() => store.getters.currentStep)
-const subMode = computed(() => store.getters.subMode)
-const totalSteps = computed(() => steps.value.length)
-const isFirstStep = computed(() => currentStep.value === 0)
-const isLastStep = computed(() => currentStep.value === totalSteps.value - 1)
-const fieldErrors = computed(() => errors.value)
-
+}
 onMounted(() => {
   resetSteps()
 })
+
+function getNewFields() {
+  const newFields = Object.assign({}, emptyFields)
+  newFields.name.fieldValue = 'User' + (dataRowList.value.length + 1)
+  return newFields
+}
 
 function checkForm() {
   if (skipValidate.value) {
@@ -196,13 +205,7 @@ function submit() {
 }
 
 function resetSteps() {
-  fields.value.subMode.fieldValue = subMode.value ? subMode.value : '純圖表模式'
-  fields.value.name.fieldValue = 'User' + (dataRowList.value?.length + 1)
-  fields.value.email.fieldValue = ''
-  fields.value.gender.fieldValue = '其他'
-  fields.value.age.fieldValue = 18
-  fields.value.fileInput.fieldValue = ''
-  file.value = null
+  fields.value = Object.assign({}, emptyFields)
   submitted.value = false
   isCheckedForm.value = false
   brainDataRow.value = null

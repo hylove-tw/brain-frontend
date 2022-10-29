@@ -7,6 +7,7 @@
             <header class="flex flex-col justify-start">
               <h2 class="text-2xl md:text-4xl font-semibold">Analysis Report</h2>
               <h3 class="text-md">腦波分析</h3>
+              <sub v-if="currentData">{{currentData.name}}</sub>
             </header>
             <div class="flex justify-end space-x-2 items-center">
               <div class="form-control" v-if="isSalesMode">
@@ -46,33 +47,33 @@
                 <div class="justify-center" v-if="activeTab === 'report'">
                   <!--                    <h5 class="justify-center card-title">分析結果</h5>-->
                   <div class="justify-center">
-                    <Mindfulness v-if="subMode==='正念修行驗證模式'" :brain-data="dataRows[currentDataIndex]"></Mindfulness>
-                    <Ore v-if="subMode==='礦物結晶體驗證模式'" :brain-data="dataRows[currentDataIndex]"></Ore>
-                    <HumanResource v-if="subMode==='H.R評估參考模式'" :brain-data="dataRows[currentDataIndex]">
+                    <Mindfulness v-if="subMode==='正念修行驗證模式'" :brain-data="currentData"></Mindfulness>
+                    <Ore v-if="subMode==='礦物結晶體驗證模式'" :brain-data="currentData"></Ore>
+                    <HumanResource v-if="subMode==='H.R評估參考模式'" :brain-data="currentData">
                     </HumanResource>
-                    <Talent v-if="subMode==='天賦潛能評估模式'" :brain-data="dataRows[currentDataIndex]"></Talent>
-                    <Interactive v-if="subMode==='五感互動驗證模式'" :brain-data="dataRows[currentDataIndex]"></Interactive>
+                    <Talent v-if="subMode==='天賦潛能評估模式'" :brain-data="currentData"></Talent>
+                    <Interactive v-if="subMode==='五感互動驗證模式'" :brain-data="currentData"></Interactive>
                   </div>
                 </div>
                 <div class="justify-center" v-if="activeTab === 'basicData'">
                   <!--                    <h5 class="card-title justify-center card-title mb-4">腦波圖表</h5>-->
-                  <BasicData :brain-data="dataRows[currentDataIndex]" />
+                  <BasicData :brain-data="currentData" />
                 </div>
                 <div class="justify-center" v-if="activeTab === 'compared' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">基本數值報告</h5>-->
-                  <ComparedData :brain-data="dataRows[currentDataIndex]"></ComparedData>
+                  <ComparedData :brain-data="currentData"></ComparedData>
                 </div>
                 <div class="justify-center" v-if="activeTab === 'slope' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">斜率變化報告</h5>-->
-                  <SlopeReport :brain-data="dataRows[currentDataIndex]"></SlopeReport>
+                  <SlopeReport :brain-data="currentData"></SlopeReport>
                 </div>
                 <div class="justify-center" v-if="activeTab === 'digital' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">斜率變化報告</h5>-->
-                  <DigitalReport :brain-data="dataRows[currentDataIndex]"></DigitalReport>
+                  <DigitalReport :brain-data="currentData"></DigitalReport>
                 </div>
                 <div class="justify-center" v-if="activeTab === 'sentiment' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">斜率變化報告</h5>-->
-                  <SentimentReport :brain-data="dataRows[currentDataIndex]"></SentimentReport>
+                  <SentimentReport :brain-data="currentData"></SentimentReport>
                 </div>
               </div>
             </div>
@@ -105,7 +106,7 @@ import { computed } from '@vue/reactivity'
 const store = useStore()
 const subMode = computed(() => store.getters.subMode)
 const dataRows = store.getters.dataRowList
-const currentDataIndex = store.getters.currentDataIndex
+const currentData = computed(() => store.getters.currentData)
 
 const activeTab = ref(store.getters.subMode === '純圖表模式' ? 'basicData' : 'report')
 const isSalesMode = ref(false)
