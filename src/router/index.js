@@ -5,6 +5,7 @@ import Login from '../pages/Login.vue'
 import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
 import store from '../store/index.js'
+import Music from '../pages/Music.vue'
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
                 path: '/analysis',
                 name: 'Home',
                 component: Home
+            },
+            {
+                path: '/music',
+                name: 'Music',
+                component: Music
             },
             {
                 path: '/about',

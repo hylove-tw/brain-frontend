@@ -153,6 +153,10 @@ const navItems = ref([
     routeData: { name: 'Home' }
   },
   {
+    name: 'Music',
+    routeData: { name: 'Music' }
+  },
+  {
     name: '關於我們',
     routeData: { name: 'About' }
   }
