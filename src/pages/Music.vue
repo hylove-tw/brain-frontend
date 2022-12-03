@@ -72,7 +72,7 @@ function fetchMusicXML() {
         // score: '56ae21579a127715a02901a6',
         height: '500px',
         embedParams: {
-            appId: '59e7684b476cba39490801c2',
+            appId: '638abd901bbf6ba1bb99d620',
             layout: 'page',
             branding: false,
             controlsFullscreen: false,
