@@ -65,16 +65,16 @@ function fetchMusicXML() {
         },
         "afterBrainData": {
             "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-            "Attention": currentData.value.attention.after,
-            "Meditation": currentData.value.meditation.after,
-            "Delta": currentData.value.delta.after,
-            "Theta": currentData.value.theta.after,
-            "Low Alpha": currentData.value.lowAlpha.after,
-            "High Alpha": currentData.value.highAlpha.after,
-            "Low Beta": currentData.value.lowBeta.after,
-            "High Beta": currentData.value.highBeta.after,
-            "Low Gamma": currentData.value.lowGamma.after,
-            "High Gamma": currentData.value.highGamma.after,
+            "Attention": currentData.value.attention.before,
+            "Meditation": currentData.value.meditation.before,
+            "Delta": currentData.value.delta.before,
+            "Theta": currentData.value.theta.before,
+            "Low Alpha": currentData.value.lowAlpha.before,
+            "High Alpha": currentData.value.highAlpha.before,
+            "Low Beta": currentData.value.lowBeta.before,
+            "High Beta": currentData.value.highBeta.before,
+            "Low Gamma": currentData.value.lowGamma.before,
+            "High Gamma": currentData.value.highGamma.before,
         }
     }
 
