@@ -7,7 +7,6 @@
             <header class="flex flex-col justify-start">
               <h2 class="text-2xl md:text-4xl font-semibold">Analysis Report</h2>
               <h3 class="text-md">腦波分析</h3>
-              <sub v-if="currentData">{{currentData.name}}</sub>
             </header>
             <div class="flex justify-end space-x-2 items-center">
               <div class="form-control" v-if="isSalesMode">
@@ -30,50 +29,49 @@
           <div class="card bg-base-100">
             <div class="card-body p-2" v-if="dataRows?.length">
               <div class="tabs flex justify-center">
-                <a @click="changeTab('report')" class="tab tab-bordered" :class="{'tab-active': activeTab === 'report'}"
-                  v-if="subMode !== '純圖表模式'">分析結果</a>
+                <a @click="changeTab('report')" class="tab tab-bordered"
+                  :class="{ 'tab-active': activeTab === 'report' }" v-if="subMode !== '純圖表模式'">分析結果</a>
                 <a @click="changeTab('basicData')" class="tab tab-bordered"
-                  :class="{'tab-active': activeTab === 'basicData'}">腦波圖表</a>
+                  :class="{ 'tab-active': activeTab === 'basicData' }">腦波圖表</a>
                 <a @click="changeTab('compared')" class="tab tab-bordered"
-                  :class="{'tab-active': activeTab === 'compared'}" v-if="isSalesMode">比較數值</a>
-                <a @click="changeTab('slope')" class="tab tab-bordered" :class="{'tab-active': activeTab === 'slope'}"
+                  :class="{ 'tab-active': activeTab === 'compared' }" v-if="isSalesMode">比較數值</a>
+                <a @click="changeTab('slope')" class="tab tab-bordered" :class="{ 'tab-active': activeTab === 'slope' }"
                   v-if="isSalesMode">斜率變化</a>
                 <a @click="changeTab('digital')" class="tab tab-bordered"
-                  :class="{'tab-active': activeTab === 'digital'}" v-if="isSalesMode">數位定義</a>
+                  :class="{ 'tab-active': activeTab === 'digital' }" v-if="isSalesMode">數位定義</a>
                 <a @click="changeTab('sentiment')" class="tab tab-bordered"
-                  :class="{'tab-active': activeTab === 'sentiment'}" v-if="isSalesMode">情緒</a>
+                  :class="{ 'tab-active': activeTab === 'sentiment' }" v-if="isSalesMode">情緒</a>
               </div>
               <div class="p-4">
                 <div class="justify-center" v-if="activeTab === 'report'">
                   <!--                    <h5 class="justify-center card-title">分析結果</h5>-->
                   <div class="justify-center">
-                    <Mindfulness v-if="subMode==='正念修行驗證模式'" :brain-data="currentData"></Mindfulness>
-                    <Ore v-if="subMode==='礦物結晶體驗證模式'" :brain-data="currentData"></Ore>
-                    <HumanResource v-if="subMode==='H.R評估參考模式'" :brain-data="currentData">
-                    </HumanResource>
-                    <Talent v-if="subMode==='天賦潛能評估模式'" :brain-data="currentData"></Talent>
-                    <Interactive v-if="subMode==='五感互動驗證模式'" :brain-data="currentData"></Interactive>
+                    <Mindfulness v-if="subMode === '正念修行驗證模式'" />
+                    <Ore v-if="subMode === '礦物結晶體驗證模式'" />
+                    <HumanResource v-if="subMode === 'H.R評估參考模式'" />
+                    <Talent v-if="subMode === '天賦潛能評估模式'" :brain-data="currentData"></Talent>
+                    <Interactive v-if="subMode === '五感互動驗證模式'" :brain-data="currentData"></Interactive>
                   </div>
                 </div>
                 <div class="justify-center" v-if="activeTab === 'basicData'">
                   <!--                    <h5 class="card-title justify-center card-title mb-4">腦波圖表</h5>-->
-                  <BasicData :brain-data="currentData" />
+                  <BasicData />
                 </div>
                 <div class="justify-center" v-if="activeTab === 'compared' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">基本數值報告</h5>-->
-                  <ComparedData :brain-data="currentData"></ComparedData>
+                  <ComparedData />
                 </div>
                 <div class="justify-center" v-if="activeTab === 'slope' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">斜率變化報告</h5>-->
-                  <SlopeReport :brain-data="currentData"></SlopeReport>
+                  <SlopeReport />
                 </div>
                 <div class="justify-center" v-if="activeTab === 'digital' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">斜率變化報告</h5>-->
-                  <DigitalReport :brain-data="currentData"></DigitalReport>
+                  <DigitalReport />
                 </div>
                 <div class="justify-center" v-if="activeTab === 'sentiment' && isSalesMode">
                   <!--                    <h5 class="justify-center card-title">斜率變化報告</h5>-->
-                  <SentimentReport :brain-data="currentData"></SentimentReport>
+                  <SentimentReport />
                 </div>
               </div>
             </div>

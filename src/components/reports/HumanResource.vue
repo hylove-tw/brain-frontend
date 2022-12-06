@@ -29,7 +29,7 @@
             <div class="report-cell">
               <span><span class="font-bold">總能量</span><br>{{ humanResourceData.TEScore }}</span>
               <span><span class="font-bold">情緒平均分數</span><br>{{ humanResourceData.sentimentBeforeAvg }} / {{
-              humanResourceData.sentimentAfterAvg
+                  humanResourceData.sentimentAfterAvg
               }}</span>
             </div>
             <div class="report-cell">
@@ -65,55 +65,54 @@
       </div>
     </div>
     <div class="py-2 text-center" v-else>
-      <span v-if="brainData.fileInput.before===null">無前測資料</span>
-      <span v-if="brainData.fileInput.after===null">無後測資料</span>
+      <span v-if="currentData.fileInput.before === null">無前測資料</span>
+      <span v-if="currentData.fileInput.after === null">無後測資料</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, onMounted, watch, computed } from "vue";
 import { useStore } from 'vuex'
 import axios from "axios";
-import { computed } from '@vue/reactivity';
 const store = useStore();
+const currentData = computed(() => store.getters.currentData)
 const humanResourceData = ref()
-const brainData = computed(() => {
-  const data = store.getters.currentData
-  console.log(data)
-  return data
+
+
+watch(currentData, (newVal, oldVal) => {
+  if (newVal) {
+    getHumanResourceData()
+  }
 })
-const props = defineProps({
-  brainData: Object
-})
+
 function getHumanResourceData() {
-  // test data
   const payload = {
     "beforeBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-      "Attention": props.brainData.attention.before,
-      "Meditation": props.brainData.meditation.before,
-      "Delta": props.brainData.delta.before,
-      "Theta": props.brainData.theta.before,
-      "Low Alpha": props.brainData.lowAlpha.before,
-      "High Alpha": props.brainData.highAlpha.before,
-      "Low Beta": props.brainData.lowBeta.before,
-      "High Beta": props.brainData.highBeta.before,
-      "Low Gamma": props.brainData.lowGamma.before,
-      "High Gamma": props.brainData.highGamma.before,
+      "Attention": currentData.value.attention.before,
+      "Meditation": currentData.value.meditation.before,
+      "Delta": currentData.value.delta.before,
+      "Theta": currentData.value.theta.before,
+      "Low Alpha": currentData.value.lowAlpha.before,
+      "High Alpha": currentData.value.highAlpha.before,
+      "Low Beta": currentData.value.lowBeta.before,
+      "High Beta": currentData.value.highBeta.before,
+      "Low Gamma": currentData.value.lowGamma.before,
+      "High Gamma": currentData.value.highGamma.before,
     },
     "afterBrainData": {
       "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-      "Attention": props.brainData.attention.after,
-      "Meditation": props.brainData.meditation.after,
-      "Delta": props.brainData.delta.after,
-      "Theta": props.brainData.theta.after,
-      "Low Alpha": props.brainData.lowAlpha.after,
-      "High Alpha": props.brainData.highAlpha.after,
-      "Low Beta": props.brainData.lowBeta.after,
-      "High Beta": props.brainData.highBeta.after,
-      "Low Gamma": props.brainData.lowGamma.after,
-      "High Gamma": props.brainData.highGamma.after,
+      "Attention": currentData.value.attention.after,
+      "Meditation": currentData.value.meditation.after,
+      "Delta": currentData.value.delta.after,
+      "Theta": currentData.value.theta.after,
+      "Low Alpha": currentData.value.lowAlpha.after,
+      "High Alpha": currentData.value.highAlpha.after,
+      "Low Beta": currentData.value.lowBeta.after,
+      "High Beta": currentData.value.highBeta.after,
+      "Low Gamma": currentData.value.lowGamma.after,
+      "High Gamma": currentData.value.highGamma.after,
     }
   }
 
@@ -124,9 +123,6 @@ function getHumanResourceData() {
     console.error(err)
   })
 }
-watch(brainData, (newVal, oldVal) => {
-  getHumanResourceData()
-})
 onMounted(() => {
   getHumanResourceData()
 })

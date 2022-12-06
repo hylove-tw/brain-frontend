@@ -153,8 +153,12 @@ const navItems = ref([
     routeData: { name: 'Home' }
   },
   {
-    name: 'Music',
+    name: '腦波音樂',
     routeData: { name: 'Music' }
+  },
+  {
+    name: '腦波NFT',
+    routeData: { name: 'NFT' }
   },
   {
     name: '關於我們',
