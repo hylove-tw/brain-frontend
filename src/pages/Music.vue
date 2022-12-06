@@ -70,9 +70,11 @@ function fetchMusicXML() {
     const container = document.getElementById('embed-example')
     const embed = new Embed(container, {
         // score: '56ae21579a127715a02901a6',
+    
+        // https://flat.io/developers/apps/638abd901bbf6ba1bb99d620/embed/statistics
         height: '500px',
         embedParams: {
-            appId: '638abd901bbf6ba1bb99d620',
+            appId: import.meta.env.VITE_MUSIC_APP_ID,
             layout: 'page',
             branding: false,
             controlsFullscreen: false,
