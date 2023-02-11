@@ -11,7 +11,10 @@
         <div v-show="currentData">
             <input id="sheetTitle" placeholder="輸入標題">
             <input id="soundTempo" placeholder="輸入速度" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-            <button type="button" @click="editMusicxml">修改樂譜</button>
+            <button type="button" @click="editMusicxml" style="border: 2px solid black">修改樂譜</button>
+            <a id="exportMidi" style="border: 2px solid black">Export MIDI</a>
+            <a id="exportWav" style="border: 2px solid black">Export WAV</a>
+            <a id="exportMp3" style="border: 2px solid black">Export MP3</a>
         </div>
         <div id="embed-example"></div>
     </div>
@@ -20,9 +23,9 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
-
 import Embed from 'flat-embed';
 import axios from 'axios';
+import MidiConverter from '../utils/midiConverter.js';
 const store = useStore()
 const title = ref('Music')
 const subTitle = ref('腦波音樂')
@@ -30,18 +33,16 @@ const message = ref('讀取中...')
 const parser = new DOMParser()
 const serializer = new XMLSerializer();
 let embed = ref()
-let musicXml
+let musicXml = ref()
 const currentData = computed(() => store.getters.currentData)
 
 watch(currentData, (newVal, oldVal) => {
-    console.log('newVal', newVal)
     if (newVal) {
         fetchMusicXML(currentData.value)
     }
 })
 
 onMounted(() => {
-    console.log('currentData', currentData.value)
     if (currentData.value) {
         fetchMusicXML(currentData.value)
     }
@@ -91,13 +92,14 @@ function fetchMusicXML() {
         }
     })
     axios.post('/music', payload).then(function (mxl) {
-        console.log(mxl)
         // Got the compressed score as an `ArrayBuffer`, load it in the embed
         musicXml = mxl.data
         return embed.loadMusicXML(mxl.data)
     }).then(function () {
         // Score loaded in the embed
         message.value = ''
+        // convert audio
+        doAudioConvert()
     }).catch(function (error) {
         console.error(error)
     })
@@ -108,11 +110,14 @@ function editMusicxml() {
     const xmlDoc = parser.parseFromString(musicXml, "text/xml");
     const newTitle = document.getElementById("sheetTitle").value.trim()
     const soundTempo = parseInt(document.getElementById("soundTempo").value)
-    
+
     // edit sheet title
     if (newTitle != "") {
         xmlDoc.getElementsByTagName("movement-title")[0].innerHTML = newTitle
         hasChange = true;
+        // change audio file name
+        document.getElementById('exportMidi').setAttribute('download', newTitle + '.mid')
+        document.getElementById('exportWav').setAttribute('download', newTitle + '.wav')
     }
 
     // edit sound temple
@@ -128,6 +133,33 @@ function editMusicxml() {
     }
 
 }
+
+function doAudioConvert() {
+    const xmlDoc = parser.parseFromString(musicXml, "text/xml");
+    const title = xmlDoc.getElementsByTagName("movement-title")[0].innerHTML;
+    embed.getMIDI().then(function (midi) {
+        const mc = new MidiConverter(midi)
+
+        // convert to midi 
+        let midiBlob = mc.convertToMidiBlob()
+        let midiSrc = URL.createObjectURL(midiBlob)
+        document.getElementById('exportMidi').setAttribute('href', midiSrc)
+        document.getElementById('exportMidi').setAttribute('download', title + '.mid')
+
+        // convert to midi 
+        let wavBlob = mc.convertToWavBlob()
+        let wavSrc = URL.createObjectURL(wavBlob)
+        document.getElementById('exportWav').setAttribute('href', wavSrc)
+        document.getElementById('exportWav').setAttribute('download', title + '.wav')
+
+        // convert to mp3
+        let mp3Url = mc.convertToWavBlob()
+        let mp3Src = URL.createObjectURL(mp3Url)
+        document.getElementById('exportMp3').setAttribute('href', mp3Src)
+        document.getElementById('exportMp3').setAttribute('download', title + '.mp3')
+    })
+}
+
 </script>
 
 <style scoped>
