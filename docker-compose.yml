@@ -1,0 +1,48 @@
+version: '3'
+services:
+
+#  db:
+#    container_name: postgres
+#    image: postgres
+#    environment:
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: hylove
+#    ports:
+#      - "5432:5432"
+#    #   (HOST:CONTAINER)
+#    volumes:
+#      - ./db_data:/var/lib/postgresql/data/
+
+
+  nginx:
+    container_name: nginx
+    build: .
+    restart: always
+    ports:
+    # - "8080:80"
+        - "80:80"
+    #   (- "HOST:CONTAINER")
+    volumes:
+#      - ./backend:/backend
+      - ./backend/static:/static
+      - ./log/nginx:/var/log/nginx
+#    depends_on:
+#      - api
+
+#  api:
+#    container_name: backend
+#    build: ./backend
+#    environment:
+#      - USE_DOT_ENV=True
+#      - DEBUG=False
+#      - DATABASE_URL=postgres://root:hylove@db:5432/postgres
+#    restart: always
+#    # command: uwsgi  --emperor uwsgi.ini
+#    command: uwsgi --ini uwsgi.ini
+#    # ports:
+#    # - "8002:8000"
+#    volumes:
+#      - ./backend:/backend
+#      - ./media:/media
+#    depends_on:
+#      - db
