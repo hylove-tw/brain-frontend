@@ -1,22 +1,82 @@
 <template>
-    <div>
-        <div class="px-4 flex w-full justify-start items-center">
-            <header class="py-4 md:py-6 flex flex-col justify-start">
-                <h2 class="text-2xl md:text-4xl font-semibold">{{ title }}</h2>
-                <h3 class="text-md">{{ subTitle }}</h3>
-            </header>
-            <div></div>
+    <div class="w-full">
+        <div class="flex flex-col gap-6">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <div class="flex w-full justify-start items-center">
+                        <header class="flex flex-col justify-start">
+                            <h2 class="text-2xl md:text-4xl font-semibold">{{ title }}</h2>
+                            <h3 class="text-md">{{ subTitle }}</h3>
+                        </header>
+                    </div>
+                    <div class="text-sm font-semibold">{{ message }}</div>
+                    <div v-show="currentData">
+                        <div class="space-y-4">
+                            <div class="flex flex-col space-y-2 space-x-2 justify-between">
+                                <div class="flex space-x-2 justify-between items-end">
+                                    <span class="form-control">
+                                        <label class="label" for="hiInst">
+                                            <span class="label-text">樂譜標題</span>
+                                        </label>
+                                        <input class="input input-bordered input-xs" id="sheetTitle" placeholder="輸入標題"
+                                            v-model="documentTitle">
+                                    </span>
+                                    <span class="form-control">
+                                        <label class="label" for="hiInst">
+                                            <span class="label-text">樂譜速度(BPM)</span>
+                                        </label>
+                                        <input type="number" min="1" class="input input-bordered input-xs" id="soundTempo"
+                                            placeholder="輸入速度" v-model="bpm">
+                                    </span>
+                                    <span class="form-control inline">
+                                        <label class="label" for="hiInst">
+                                            <span class="label-text">高音部樂器</span>
+                                        </label>
+                                        <select name="high" id="hiInst" class="input input-xs input-bordered"
+                                            v-model="highInstrument">
+                                            <option v-for="instrument in instrumentChoices">
+                                                {{ instrument }}
+                                            </option>
+                                        </select>
+                                    </span>
+                                    <span class="form-control inline">
+                                        <label class="label" for="midInst">
+                                            <span class="label-text">中音部樂器</span>
+                                        </label>
+                                        <select name="high" id="midInst" class="input input-xs input-bordered"
+                                            v-model="midInstrument">
+                                            <option v-for="instrument in instrumentChoices">
+                                                {{ instrument }}
+                                            </option>
+                                        </select>
+                                    </span>
+                                    <span class="form-control inline">
+                                        <label class="label" for="lowInst">
+                                            <span class="label-text">低音樂部器</span>
+                                        </label>
+                                        <select name="high" id="lowInst" class="input input-xs input-bordered"
+                                            v-model="lowInstrument">
+                                            <option v-for="instrument in instrumentChoices">
+                                                {{ instrument }}
+                                            </option>
+                                        </select>
+                                    </span>
+                                    <button type="button" @click="fetchMusicXML"
+                                        class="btn btn-primary btn-xs">產生樂譜</button>
+                                </div>
+                                <div class="flex space-x-2 justify-end">
+                                    <a id="exportMidi" class="btn btn-outline btn-xs">Export MIDI</a>
+                                    <a id="exportWav" class="btn btn-outline btn-xs">Export WAV</a>
+                                    <a id="exportMp3" class="btn btn-outline btn-xs">Export MP3</a>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div id="embed-example" class="w-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>{{ message }}</div>
-        <div v-show="currentData">
-            <input id="sheetTitle" placeholder="輸入標題">
-            <input id="soundTempo" placeholder="輸入速度" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
-            <button type="button" @click="editMusicxml" style="border: 2px solid black">修改樂譜</button>
-            <a id="exportMidi" style="border: 2px solid black">Export MIDI</a>
-            <a id="exportWav" style="border: 2px solid black">Export WAV</a>
-            <a id="exportMp3" style="border: 2px solid black">Export MP3</a>
-        </div>
-        <div id="embed-example"></div>
     </div>
 </template>
 
@@ -29,12 +89,19 @@ import MidiConverter from '../utils/midiConverter.js';
 const store = useStore()
 const title = ref('Music')
 const subTitle = ref('腦波音樂')
-const message = ref('讀取中...')
+const message = ref('請於設定好參數後點選「產生樂譜」按鈕')
 const parser = new DOMParser()
 const serializer = new XMLSerializer();
 let embed = ref()
 let musicXml = ref()
 const currentData = computed(() => store.getters.currentData)
+const instrumentChoices = ref(['長笛', '上低音薩克斯風', '低音大提琴', '鋼琴', '小提琴', '電子吉他', '薩克斯風'])
+const highInstrument = ref('薩克斯風')
+const midInstrument = ref('鋼琴')
+const lowInstrument = ref('低音大提琴')
+const documentTitle = ref('腦波音樂')
+const bpm = ref(60)
+
 
 watch(currentData, (newVal, oldVal) => {
     if (newVal) {
@@ -44,13 +111,20 @@ watch(currentData, (newVal, oldVal) => {
 
 onMounted(() => {
     if (currentData.value) {
-        fetchMusicXML(currentData.value)
+        // fetchMusicXML(currentData.value)
     }
 })
 
 
 function fetchMusicXML() {
     const payload = {
+        "title": documentTitle.value,
+        "bpm": bpm.value,
+        "instrument": {
+            "p1": highInstrument.value,
+            "p2": midInstrument.value,
+            "p3": lowInstrument.value
+        },
         "beforeBrainData": {
             "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
             "Attention": currentData.value.attention.before,
@@ -80,10 +154,15 @@ function fetchMusicXML() {
     }
 
     const container = document.getElementById('embed-example')
-    embed = new Embed(container, {
+    if (embed.value) {
+        embed.value.stop().then(function () {
+            // The playback is stopped
+        });
+    }
+    embed.value = new Embed(container, {
         // score: '56ae21579a127715a02901a6',
         // https://flat.io/developers/apps/638abd901bbf6ba1bb99d620/embed/statistics
-        height: '500px',
+        height: '600px',
         embedParams: {
             appId: import.meta.env.VITE_MUSIC_APP_ID,
             layout: 'page',
@@ -94,7 +173,7 @@ function fetchMusicXML() {
     axios.post('/music', payload).then(function (mxl) {
         // Got the compressed score as an `ArrayBuffer`, load it in the embed
         musicXml = mxl.data
-        return embed.loadMusicXML(mxl.data)
+        return embed.value.loadMusicXML(mxl.data)
     }).then(function () {
         // Score loaded in the embed
         message.value = ''
@@ -105,34 +184,6 @@ function fetchMusicXML() {
     })
 }
 
-function editMusicxml() {
-    let hasChange = false;
-    const xmlDoc = parser.parseFromString(musicXml, "text/xml");
-    const newTitle = document.getElementById("sheetTitle").value.trim()
-    const soundTempo = parseInt(document.getElementById("soundTempo").value)
-
-    // edit sheet title
-    if (newTitle != "") {
-        xmlDoc.getElementsByTagName("movement-title")[0].innerHTML = newTitle
-        hasChange = true;
-        // change audio file name
-        document.getElementById('exportMidi').setAttribute('download', newTitle + '.mid')
-        document.getElementById('exportWav').setAttribute('download', newTitle + '.wav')
-    }
-
-    // edit sound temple
-    if (soundTempo > 0) {
-        xmlDoc.getElementsByTagName("per-minute")[0].innerHTML = soundTempo
-        xmlDoc.getElementsByTagName("sound")[0].setAttribute("tempo", soundTempo)
-        hasChange = true;
-    }
-
-    const newXml = serializer.serializeToString(xmlDoc)
-    if (hasChange) {
-        embed.loadMusicXML(newXml)
-    }
-
-}
 
 function doAudioConvert() {
     const xmlDoc = parser.parseFromString(musicXml, "text/xml");
@@ -162,6 +213,4 @@ function doAudioConvert() {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
