@@ -16,13 +16,13 @@
           <div class="flex-1 px-2 mx-2">
             <div class="flex">
               <a class="
-                  text-xl
-                  font-bold
-                  text-primary
-                  cursor-pointer
-                  md:text-2xl
-                  hover:text-gray-700
-                " @click="routeTo({ name: 'Welcome' })">
+                        text-xl
+                        font-bold
+                        text-primary
+                        cursor-pointer
+                        md:text-2xl
+                        hover:text-gray-700
+                      " @click="routeTo({ name: 'Welcome' })">
                 AI-Mind Power
                 <sub class="font-light text-sm text-gray-500">v{{ version }}</sub>
               </a>
@@ -211,7 +211,7 @@ function downloadData(data, exportName = 'raw') {
 }
 
 async function downloadHtml() {
-  const filename = `${dataRows[currentDataIndex].name}_report.png`;
+  const filename = `${dataRows.value[currentDataIndex.value].name}_report.png`;
   try {
     const node = targetElement.value; // 將目標 HTML 畫面指定為具有特定 ref 的元素
 
