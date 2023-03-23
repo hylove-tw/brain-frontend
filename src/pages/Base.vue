@@ -16,13 +16,13 @@
           <div class="flex-1 px-2 mx-2">
             <div class="flex">
               <a class="
-            text-xl
-            font-bold
-            text-primary
-            cursor-pointer
-            md:text-2xl
-            hover:text-gray-700
-          " @click="routeTo({name: 'Welcome'})">
+                                                                                  text-xl
+                                                                                  font-bold
+                                                                                  text-primary
+                                                                                  cursor-pointer
+                                                                                  md:text-2xl
+                                                                                  hover:text-gray-700
+                                                                                " @click="routeTo({ name: 'Welcome' })">
                 AI-Mind Power
                 <sub class="font-light text-sm text-gray-500">v{{ version }}</sub>
               </a>
@@ -38,7 +38,7 @@
                 <a @click="logout">登出</a>
               </li>
               <li class="border border-primary text-primary" v-else>
-                <a @click="routeTo({name: 'Login'})">登入</a>
+                <a @click="routeTo({ name: 'Login' })">登入</a>
               </li>
             </ul>
           </div>
@@ -52,11 +52,15 @@
               <div class="card bg-base-100 shadow-xl">
                 <div class="card-body" v-if="dataRows?.length">
                   <h2 class="card-title">{{ dataRows[currentDataIndex].name }}</h2>
-                  <div class="flex flex-col leading-10 text-lg">
+                  <div class="flex flex-col leading-10">
+                    <div class="border-b mb-1">example@hylove.com.tw</div>
+                    <div class="border-b mb-1">手機：0912345678</div>
                     <div class="border-b mb-1">性別：{{ dataRows[currentDataIndex].gender }}</div>
                     <div class="border-b mb-1">年齡：{{ dataRows[currentDataIndex].age }}歲</div>
+                    <div class="border-b mb-1">藍芽序號： 50005403</div>
+                    <div class="border-b mb-1">藍芽裝置： Brain Link</div>
                   </div>
-                  <div class="btn btn-sm btn-outline" @click="downloadData(dataRows[currentDataIndex])">下載分析結果</div>
+                  <div class="btn btn-sm btn-outline" @click="downloadHtml">下載分析結果</div>
                 </div>
                 <div class="card-body" v-else>
                   <h3 class="card-title">尚無紀錄</h3>
@@ -101,7 +105,9 @@
                 </div>
               </div>
             </div>
-            <router-view class="md:col-span-3"></router-view>
+            <div class="md:col-span-3" ref="targetElement">
+              <router-view></router-view>
+            </div>
           </div>
         </div>
         <footer class="bottom-0 footer items-center justify-center p-4 bg-primary text-primary-content">
@@ -126,7 +132,7 @@
           <a class="btn-ou" @click="logout">登出</a>
         </li>
         <li class="border border-primary text-primary" v-else>
-          <a @click="routeTo({name: 'Login'})">登入</a>
+          <a @click="routeTo({ name: 'Login' })">登入</a>
         </li>
       </ul>
     </div>
@@ -135,8 +141,10 @@
 
 <script setup>
 import { computed, onBeforeMount, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 import MultiStepForm from '../components/MultiStepForm.vue'
 
 const store = useStore()
@@ -147,6 +155,8 @@ const dataRows = computed(() => store.getters.dataRowList)
 const currentDataIndex = computed(() => store.getters.currentDataIndex)
 const subModeOptions = computed(() => store.getters.subModeOptions)
 const router = useRouter()
+const route = useRoute()
+const targetElement = ref(null)
 const navItems = ref([
   {
     name: '腦波分析',
@@ -200,10 +210,23 @@ function downloadData(data, exportName = 'raw') {
   downloadAnchorNode.remove()
 }
 
+async function downloadHtml() {
+  const filename = `${dataRows[currentDataIndex].name}_report.png`;
+  try {
+    const node = targetElement.value; // 將目標 HTML 畫面指定為具有特定 ref 的元素
+
+    // 使用 dom-to-image 將目標 HTML 畫面轉換為圖片（如 PNG）
+    domtoimage.toBlob(node)
+      .then(function (blob) {
+        window.saveAs(blob, filename);
+      });
+  } catch (error) {
+    console.error('Failed to download the HTML:', error);
+  }
+};
+
 onBeforeMount(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

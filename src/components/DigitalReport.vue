@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive-sm py-4" v-for="item in factors">
-
+    <div v-if="item"></div>
     <div class="divider">{{ item.name }}</div>
     <div class="overflow-scroll">
       <table class="table table-striped table-bordered w-full">
@@ -14,7 +14,7 @@
           <tr v-for="index in maxFactorRows">
             <th scope="row">T{{ index }}</th>
             <td class="text-center" v-for="factor in item.data">
-              {{ factor.data[index] }}
+              {{ factor.data ? factor.data[index] : '-' }}
             </td>
           </tr>
         </tbody>
@@ -91,6 +91,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
