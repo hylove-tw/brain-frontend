@@ -16,13 +16,13 @@
           <div class="flex-1 px-2 mx-2">
             <div class="flex">
               <a class="
-                                                                                  text-xl
-                                                                                  font-bold
-                                                                                  text-primary
-                                                                                  cursor-pointer
-                                                                                  md:text-2xl
-                                                                                  hover:text-gray-700
-                                                                                " @click="routeTo({ name: 'Welcome' })">
+                  text-xl
+                  font-bold
+                  text-primary
+                  cursor-pointer
+                  md:text-2xl
+                  hover:text-gray-700
+                " @click="routeTo({ name: 'Welcome' })">
                 AI-Mind Power
                 <sub class="font-light text-sm text-gray-500">v{{ version }}</sub>
               </a>
@@ -60,7 +60,7 @@
                     <div class="border-b mb-1">藍芽序號： 50005403</div>
                     <div class="border-b mb-1">藍芽裝置： Brain Link</div>
                   </div>
-                  <div class="btn btn-sm btn-outline" @click="downloadHtml">下載分析結果</div>
+                  <button class="btn btn-sm btn-outline" @click="downloadHtml">下載分析結果</button>
                 </div>
                 <div class="card-body" v-else>
                   <h3 class="card-title">尚無紀錄</h3>

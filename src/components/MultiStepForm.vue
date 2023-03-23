@@ -104,7 +104,7 @@ const fieldErrors = computed(() => errors.value)
 const emptyFields = {
   subMode: {
     label: '模式',
-    fieldValue: '正念修行驗證模式',
+    fieldValue: '五感測試',
     type: 'select',
     options: props.subModeOptions
   },

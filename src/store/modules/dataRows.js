@@ -1,8 +1,8 @@
 const state = {
     dataRowList: [],
-    subMode: '純圖表模式',
+    subMode: '五感測試',
     subModeOptions: {
-        0: '純圖表模式',
+        0: '五感測試',
         1: '礦物結晶體驗證模式',
         2: '正念修行驗證模式',
         3: 'H.R評估參考模式',

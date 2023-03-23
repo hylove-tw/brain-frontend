@@ -30,7 +30,7 @@
             <div class="card-body p-2" v-if="dataRows?.length">
               <div class="tabs flex justify-center">
                 <a @click="changeTab('report')" class="tab tab-bordered"
-                  :class="{ 'tab-active': activeTab === 'report' }" v-if="subMode !== '純圖表模式'">分析結果</a>
+                  :class="{ 'tab-active': activeTab === 'report' }" v-if="subMode !== '五感測試'">分析結果</a>
                 <a @click="changeTab('basicData')" class="tab tab-bordered"
                   :class="{ 'tab-active': activeTab === 'basicData' }">腦波圖表</a>
                 <a @click="changeTab('compared')" class="tab tab-bordered"
@@ -106,7 +106,7 @@ const subMode = computed(() => store.getters.subMode)
 const dataRows = store.getters.dataRowList
 const currentData = computed(() => store.getters.currentData)
 
-const activeTab = ref(store.getters.subMode === '純圖表模式' ? 'basicData' : 'report')
+const activeTab = ref(store.getters.subMode === '五感測試' ? 'basicData' : 'report')
 const isSalesMode = ref(false)
 const salesModeTabs = ref(['basicData', 'slope'])
 const subModeOptions = computed(() => store.getters.subModeOptions)
@@ -121,7 +121,7 @@ const changeTab = (tab) => {
 }
 
 watch(() => subMode, (newVal) => {
-  if (newVal === '純圖表模式') {
+  if (newVal === '五感測試') {
     activeTab.value = 'charts'
   } else {
     activeTab.value = 'report'
