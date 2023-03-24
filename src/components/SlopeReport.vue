@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive-sm" v-if="factors">
+  <div class="table-responsive-sm" v-if="tableData">
     <div class="overflow-scroll">
       <table class="table table-striped table-bordered w-full">
         <thead>
@@ -18,103 +18,102 @@
           </tr>
         </thead>
         <tbody>
-          <!--      {{brainData.attention.reportData.slopeBefore.value }}-->
-          <tr v-for="(item, index) in factors[0].data" :key="index">
+          <tr v-for="(item, index) in tableData" :key="index">
             <th scope="row">T{{ index + 1 }}</th>
-            <td :class="getColStyle(item.attention[2])">
+            <td>
               {{ item.attention[0] }}
             </td>
-            <td :class="getColStyle(item.attention[2])">
+            <td>
               {{ item.attention[1] }}
             </td>
-            <td :class="getColStyle(item.meditation[2])">
+            <td>
               {{ item.meditation[0] }}
             </td>
-            <td :class="getColStyle(item.meditation[2])">
+            <td>
               {{ item.meditation[1] }}
             </td>
-            <td :class="getColStyle(item.delta[2])">
+            <td>
               {{ item.delta[0] }}
             </td>
-            <td :class="getColStyle(item.delta[2])">
+            <td>
               {{ item.delta[1] }}
             </td>
-            <td :class="getColStyle(item.theta[2])">
+            <td>
               {{ item.theta[0] }}
             </td>
-            <td :class="getColStyle(item.theta[2])">
+            <td>
               {{ item.theta[1] }}
             </td>
-            <td :class="getColStyle(item.lowAlpha[2])">
+            <td>
               {{ item.lowAlpha[0] }}
             </td>
-            <td :class="getColStyle(item.lowAlpha[2])">
+            <td>
               {{ item.lowAlpha[1] }}
             </td>
-            <td :class="getColStyle(item.highAlpha[2])">
+            <td>
               {{ item.highAlpha[0] }}
             </td>
-            <td :class="getColStyle(item.highAlpha[2])">
+            <td>
               {{ item.highAlpha[1] }}
             </td>
-            <td :class="getColStyle(item.lowBeta[2])">
+            <td>
               {{ item.lowBeta[0] }}
             </td>
-            <td :class="getColStyle(item.lowBeta[2])">
+            <td>
               {{ item.lowBeta[1] }}
             </td>
-            <td :class="getColStyle(item.highBeta[2])">
+            <td>
               {{ item.highBeta[0] }}
             </td>
-            <td :class="getColStyle(item.highBeta[2])">
+            <td>
               {{ item.highBeta[1] }}
             </td>
-            <td :class="getColStyle(item.lowGamma[2])">
+            <td>
               {{ item.lowGamma[0] }}
             </td>
-            <td :class="getColStyle(item.lowGamma[2])">
+            <td>
               {{ item.lowGamma[1] }}
             </td>
-            <td :class="getColStyle(item.highGamma[2])">
+            <td>
               {{ item.highGamma[0] }}
             </td>
-            <td :class="getColStyle(item.highGamma[2])">
+            <td>
               {{ item.highGamma[1] }}
             </td>
           </tr>
         </tbody>
-        <thead>
+        <thead v-if="slopeSyncRate.data">
           <tr class="table-secondary">
             <th scope="row">同步率</th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.attention }}
+              {{ slopeSyncRate.attention }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.meditation }}
+              {{ slopeSyncRate.meditation }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.delta }}
+              {{ slopeSyncRate.delta }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.theta }}
+              {{ slopeSyncRate.theta }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.lowAlpha }}
+              {{ slopeSyncRate.lowAlpha }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.highAlpha }}
+              {{ slopeSyncRate.highAlpha }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.lowBeta }}
+              {{ slopeSyncRate.lowBeta }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.highBeta }}
+              {{ slopeSyncRate.highBeta }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.lowGamma }}
+              {{ slopeSyncRate.lowGamma }}
             </th>
             <th scope="col" colspan=2>
-              {{ factors[1].data.highGamma }}
+              {{ slopeSyncRate.highGamma }}
             </th>
           </tr>
         </thead>
@@ -130,6 +129,8 @@ import axios from "axios";
 const factors = ref()
 const store = useStore()
 const currentData = computed(() => store.getters.currentData)
+const tableData = ref({})
+const slopeSyncRate = ref({})
 
 watch(currentData, (newVal, oldVal) => {
   if (newVal) {
@@ -139,7 +140,7 @@ watch(currentData, (newVal, oldVal) => {
 function getSlopes() {
   const payload = {
     "beforeBrainData": {
-      "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+      "Good Signal Quality(0-100)": new Array(currentData.value.attention.before.length).fill(100),
       "Attention": currentData.value.attention.before,
       "Meditation": currentData.value.meditation.before,
       "Delta": currentData.value.delta.before,
@@ -150,9 +151,11 @@ function getSlopes() {
       "High Beta": currentData.value.highBeta.before,
       "Low Gamma": currentData.value.lowGamma.before,
       "High Gamma": currentData.value.highGamma.before,
-    },
-    "afterBrainData": {
-      "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+    }
+  }
+  if (currentData.value.hasAfterData) {
+    payload.afterBrainData = {
+      "Good Signal Quality(0-100)": new Array(currentData.value.attention.after.length).fill(100),
       "Attention": currentData.value.attention.after,
       "Meditation": currentData.value.meditation.after,
       "Delta": currentData.value.delta.after,
@@ -165,10 +168,27 @@ function getSlopes() {
       "High Gamma": currentData.value.highGamma.after,
     }
   }
-  
+
   // path: /analysis/slope
   axios.post('/analysis/slope', payload).then((res) => {
-    factors.value = res.data
+    let slopeBefore = res.data[0]
+    let slopeAfter = res.data[1]
+    slopeSyncRate.value = res.data[2]
+    tableData.value = slopeBefore.data.map((v, idx) => {
+      return {
+        'attention': [v.attention, slopeAfter.data ? slopeAfter.data[idx].attention : ''],
+        'meditation': [v.meditation, slopeAfter.data ? slopeAfter.data[idx].meditation : ''],
+        'delta': [v.delta, slopeAfter.data ? slopeAfter.data[idx].delta : ''],
+        'theta': [v.theta, slopeAfter.data ? slopeAfter.data[idx].theta : ''],
+        'lowAlpha': [v.lowAlpha, slopeAfter.data ? slopeAfter.data[idx].lowAlpha : ''],
+        'highAlpha': [v.highAlpha, slopeAfter.data ? slopeAfter.data[idx].highAlpha : ''],
+        'lowBeta': [v.lowBeta, slopeAfter.data ? slopeAfter.data[idx].lowBeta : ''],
+        'highBeta': [v.highBeta, slopeAfter.data ? slopeAfter.data[idx].highBeta : ''],
+        'lowGamma': [v.lowGamma, slopeAfter.data ? slopeAfter.data[idx].lowGamma : ''],
+        'highGamma': [v.highGamma, slopeAfter.data ? slopeAfter.data[idx].highGamma : ''],
+      }
+    })
+    console.log(tableData.value)
   }).catch((err) => {
     console.error(err)
   })
@@ -183,6 +203,4 @@ const getColStyle = (value) => {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
