@@ -199,7 +199,7 @@ function fetchMusicXML() {
 function doAudioConvert() {
     const xmlDoc = parser.parseFromString(musicXml, "text/xml");
     const title = xmlDoc.getElementsByTagName("movement-title")[0].innerHTML;
-    embed.getMIDI().then(function (midi) {
+    embed.value.getMIDI().then(function (midi) {
         const mc = new MidiConverter(midi)
 
         // convert to midi 
