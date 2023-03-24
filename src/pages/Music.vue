@@ -95,8 +95,19 @@ const serializer = new XMLSerializer();
 let embed = ref()
 let musicXml = ref()
 const currentData = computed(() => store.getters.currentData)
-const instrumentChoices = ref(['長笛', '上低音薩克斯風', '低音大提琴', '鋼琴', '小提琴', '電子吉他', '薩克斯風'])
-const highInstrument = ref('薩克斯風')
+const instrumentChoices = ref([
+    '長笛',
+    '上低音薩克斯風',
+    '低音大提琴',
+    '鋼琴',
+    '小提琴',
+    '電子吉他',
+    '中音薩克斯風',
+    '吉他',
+    '貝斯',
+    '人聲'
+])
+const highInstrument = ref('小提琴')
 const midInstrument = ref('鋼琴')
 const lowInstrument = ref('低音大提琴')
 const documentTitle = ref('腦波音樂')

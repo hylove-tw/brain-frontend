@@ -1,52 +1,68 @@
 <template>
-  <div class="flex">
-    <div class="w-full text-center">
+  <div class="w-full flex">
+    <div class="w-full text-center" v-if="sentimentBefore">
       <span class="font-bold">前測</span>
-      <chart :options="parseOption(factors.sentimentBefore)" ref="lineCharts1" v-if="factors"></chart>
+      <chart :options="parseOption(sentimentBefore)" ref="lineCharts1"></chart>
+      <div class="table-responsive-sm" v-if="sentimentBefore">
+        <div class="overflow-scroll">
+          <table class="table table-compact table-striped table-bordered w-full">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">前測</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in sentimentBefore.data" :key="index">
+                <th scope="row">T{{ index + 1 }}</th>
+                <td>
+                  <div class="badge badge-lg" :class="sentimentMap[item.name].colorClass">
+                  </div>
+                  <sub>{{ item.name }}
+                    ({{ item.score }})</sub>
+                  {{ sentimentMap[item.name].title }}
+                </td>
+              </tr>
+              <tr class="active">
+                <th>平均</th>
+                <td>{{ sentimentBefore.sentimentAvg }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="w-full text-center">
+    <div class="w-full text-center" v-if="sentimentAfter">
       <span class="font-bold">後測</span>
-      <chart :options="parseOption(factors.sentimentAfter)" ref="lineCharts2" v-if="factors"></chart>
-    </div>
-  </div>
-  <div class="table-responsive-sm" v-if="factors">
-    <div class="overflow-scroll">
-      <table class="table table-compact table-striped table-bordered w-full">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">前測</th>
-            <th scope="col">後測</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in factors.sentimentBefore.data || factors.sentimentAfter.data" :key="index">
-            <th scope="row">T{{ index + 1 }}</th>
-            <td v-if="factors.sentimentBefore.data">
-              <div class="badge badge-lg" :class="sentimentMap[factors.sentimentBefore.data[index].name].colorClass">
-              </div>
-              <sub>{{ factors.sentimentBefore.data[index].name }}
-                ({{ factors.sentimentBefore.data[index].score }})</sub>
-              {{ sentimentMap[factors.sentimentBefore.data[index].name].title }}
-            </td>
-            <td v-else> -</td>
-            <td v-if="factors.sentimentAfter.data">
-              <div class="badge badge-lg" :class="sentimentMap[factors.sentimentAfter.data[index].name].colorClass">
-              </div>
-              <sub>{{ factors.sentimentAfter.data[index].name }}
-                ({{ factors.sentimentAfter.data[index].score }})</sub>
-              {{ sentimentMap[factors.sentimentAfter.data[index].name].title }}
-
-            </td>
-            <td v-else> -</td>
-          </tr>
-          <tr class="active">
-            <th>平均</th>
-            <td>{{ factors.sentimentBefore.sentimentAvg }}</td>
-            <td>{{ factors.sentimentAfter.sentimentAvg }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <chart class="w-full" :options="parseOption(sentimentAfter)" ref="lineCharts2"></chart>
+      <div class="table-responsive-sm" v-if="sentimentBefore">
+        <div class="overflow-scroll">
+          <table class="table table-compact table-striped table-bordered w-full">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">前測</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in sentimentAfter.data" :key="index">
+                <th scope="row">T{{ index + 1 }}</th>
+                <td>
+                  <div class="badge badge-lg" :class="sentimentMap[item.name].colorClass">
+                  </div>
+                  <sub>{{ item.name }}
+                    ({{ item.score }})</sub>
+                  {{ sentimentMap[item.name].title }}
+                </td>
+              </tr>
+              <tr class="active">
+                <th>平均</th>
+                <td>{{ sentimentAfter.sentimentAvg }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,9 +76,10 @@ import { Chart } from 'highcharts-vue'
 
 const store = useStore()
 const utils = new Utils()
-const factors = ref()
 const sentimentMap = computed(() => store.getters.sentimentMap)
 const currentData = computed(() => store.getters.currentData)
+const sentimentBefore = ref()
+const sentimentAfter = ref()
 
 function parseOption(factors) {
   const data = getSentimentChartArray(factors.data)
@@ -122,7 +139,7 @@ watch(currentData, (newVal, oldVal) => {
 function getSentiment() {
   const payload = {
     "beforeBrainData": {
-      "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+      "Good Signal Quality(0-100)": new Array(currentData.value.attention.before.length).fill(100),
       "Attention": currentData.value.attention.before,
       "Meditation": currentData.value.meditation.before,
       "Delta": currentData.value.delta.before,
@@ -133,9 +150,11 @@ function getSentiment() {
       "High Beta": currentData.value.highBeta.before,
       "Low Gamma": currentData.value.lowGamma.before,
       "High Gamma": currentData.value.highGamma.before,
-    },
-    "afterBrainData": {
-      "Good Signal Quality(0-100)": [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+    }
+  }
+  if (currentData.value.hasAfterData) {
+    payload.afterBrainData = {
+      "Good Signal Quality(0-100)": new Array(currentData.value.attention.after.length).fill(100),
       "Attention": currentData.value.attention.after,
       "Meditation": currentData.value.meditation.after,
       "Delta": currentData.value.delta.after,
@@ -151,7 +170,8 @@ function getSentiment() {
 
   // path: /analysis/sentiment
   axios.post('/analysis/sentiment', payload).then((res) => {
-    factors.value = res.data
+    sentimentBefore.value = res.data.sentimentBefore
+    sentimentAfter.value = res.data.sentimentAfter
   }).catch((err) => {
     console.error(err)
   })
@@ -176,6 +196,4 @@ function getSentimentChartArray(sentimentData) {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
