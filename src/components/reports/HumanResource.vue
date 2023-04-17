@@ -8,7 +8,7 @@
           <div class="grid grid-cols-3 gap-2">
             <div class="report-cell">
               <span><sub>現況評分</sub><br>{{ humanResourceData.lowBeta.comment }}</span>
-              <span class="text-lg font-bold">業務帖展</span>
+              <span class="text-lg font-bold">業務拓展</span>
               <span><sub>潛能評分</sub><br>{{ humanResourceData.lowBeta.predict }}</span>
             </div>
             <div class="report-cell">
@@ -29,7 +29,7 @@
             <div class="report-cell">
               <span><span class="font-bold">總能量</span><br>{{ humanResourceData.TEScore }}</span>
               <span><span class="font-bold">情緒平均分數</span><br>{{ humanResourceData.sentimentBeforeAvg }} / {{
-                  humanResourceData.sentimentAfterAvg
+                humanResourceData.sentimentAfterAvg
               }}</span>
             </div>
             <div class="report-cell">
@@ -128,6 +128,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
