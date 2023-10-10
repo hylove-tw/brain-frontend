@@ -6,6 +6,8 @@ import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
 import store from '../store/index.js'
 import Music from '../pages/Music.vue'
+import DualMusic from '../pages/DualMusic.vue'
+import NFT from '../pages/NFT.vue'
 
 const routes = [
     {
@@ -32,6 +34,16 @@ const routes = [
                 path: '/music',
                 name: 'Music',
                 component: Music
+            },
+            {
+                path: '/dual-music',
+                name: 'DualMusic',
+                component: DualMusic
+            },
+            {
+                path: '/nft',
+                name: 'NFT',
+                component: NFT
             },
             {
                 path: '/about',
