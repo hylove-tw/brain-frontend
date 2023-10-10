@@ -1,77 +1,90 @@
 <template>
-    <div class="w-full">
-        <div class="flex flex-col gap-6">
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <div class="flex w-full justify-start items-center">
-                        <header class="flex flex-col justify-start">
-                            <h2 class="text-2xl md:text-4xl font-semibold">{{ title }}</h2>
-                            <h3 class="text-md">{{ subTitle }}</h3>
-                        </header>
-                    </div>
-                    <div class="text-sm font-semibold">{{ message }}</div>
-                    <div v-show="currentData">
-                        <div class="space-y-4">
-                            <div class="flex flex-col space-y-2 space-x-2 justify-between">
-                                <div class="flex space-x-2 justify-between items-end">
-                                    <span class="form-control">
-                                        <label class="label" for="hiInst">
-                                            <span class="label-text">樂譜標題</span>
-                                        </label>
-                                        <input class="input input-bordered input-xs" id="sheetTitle" placeholder="輸入標題"
-                                            v-model="documentTitle">
-                                    </span>
-                                    <span class="form-control">
-                                        <label class="label" for="hiInst">
-                                            <span class="label-text">樂譜速度(BPM)</span>
-                                        </label>
-                                        <input type="number" min="1" class="input input-bordered input-xs" id="soundTempo"
-                                            placeholder="輸入速度" v-model="bpm">
-                                    </span>
-                                    <span class="form-control inline">
-                                        <label class="label" for="hiInst">
-                                            <span class="label-text">高音部樂器</span>
-                                        </label>
-                                        <select name="high" id="hiInst" class="input input-xs input-bordered"
-                                            v-model="highInstrument">
-                                            <option v-for="instrument in instrumentChoices">
-                                                {{ instrument }}
-                                            </option>
-                                        </select>
-                                    </span>
-                                    <span class="form-control inline">
-                                        <label class="label" for="midInst">
-                                            <span class="label-text">中音部樂器</span>
-                                        </label>
-                                        <select name="high" id="midInst" class="input input-xs input-bordered"
-                                            v-model="midInstrument">
-                                            <option v-for="instrument in instrumentChoices">
-                                                {{ instrument }}
-                                            </option>
-                                        </select>
-                                    </span>
-                                    <span class="form-control inline">
-                                        <label class="label" for="lowInst">
-                                            <span class="label-text">低音樂部器</span>
-                                        </label>
-                                        <select name="high" id="lowInst" class="input input-xs input-bordered"
-                                            v-model="lowInstrument">
-                                            <option v-for="instrument in instrumentChoices">
-                                                {{ instrument }}
-                                            </option>
-                                        </select>
-                                    </span>
-                                    <button type="button" @click="fetchMusicXML"
-                                        class="btn btn-primary btn-xs">產生樂譜</button>
+    <div class="p-4 w-full max-w-7xl pb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 space-y-4 lg:gap-6 lg:space-y-0">
+            <div class="flex flex-col w-full">
+                <div class="card bg-base-100 shadow-xl">
+                    <Sidebar />
+                    <MusicDataUploadForm />
+                </div>
+            </div>
+            <div class="md:col-span-3" ref="targetElement">
+
+                <div class="w-full">
+                    <div class="flex flex-col gap-6">
+                        <div class="card bg-base-100 shadow-xl">
+                            <div class="card-body">
+                                <div class="flex w-full justify-start items-center">
+                                    <header class="flex flex-col justify-start">
+                                        <h2 class="text-2xl md:text-4xl font-semibold">{{ title }}</h2>
+                                        <h3 class="text-md">{{ subTitle }}</h3>
+                                    </header>
                                 </div>
-                                <div class="flex space-x-2 justify-end">
-                                    <a id="exportMidi" class="btn btn-outline btn-xs">Export MIDI</a>
-                                    <a id="exportWav" class="btn btn-outline btn-xs">Export WAV</a>
-                                    <a id="exportMp3" class="btn btn-outline btn-xs">Export MP3</a>
+                                <div class="text-sm font-semibold">{{ message }}</div>
+                                <div v-show="currentData">
+                                    <div class="space-y-4">
+                                        <div class="flex flex-col space-y-2 space-x-2 justify-between">
+                                            <div class="flex space-x-2 justify-between items-end">
+                                                <span class="form-control">
+                                                    <label class="label" for="hiInst">
+                                                        <span class="label-text">樂譜標題</span>
+                                                    </label>
+                                                    <input class="input input-bordered input-xs" id="sheetTitle"
+                                                        placeholder="輸入標題" v-model="documentTitle">
+                                                </span>
+                                                <span class="form-control">
+                                                    <label class="label" for="hiInst">
+                                                        <span class="label-text">樂譜速度(BPM)</span>
+                                                    </label>
+                                                    <input type="number" min="1" class="input input-bordered input-xs"
+                                                        id="soundTempo" placeholder="輸入速度" v-model="bpm">
+                                                </span>
+                                                <span class="form-control inline">
+                                                    <label class="label" for="hiInst">
+                                                        <span class="label-text">高音部樂器</span>
+                                                    </label>
+                                                    <select name="high" id="hiInst" class="input input-xs input-bordered"
+                                                        v-model="highInstrument">
+                                                        <option v-for="instrument in instrumentChoices">
+                                                            {{ instrument }}
+                                                        </option>
+                                                    </select>
+                                                </span>
+                                                <span class="form-control inline">
+                                                    <label class="label" for="midInst">
+                                                        <span class="label-text">中音部樂器</span>
+                                                    </label>
+                                                    <select name="high" id="midInst" class="input input-xs input-bordered"
+                                                        v-model="midInstrument">
+                                                        <option v-for="instrument in instrumentChoices">
+                                                            {{ instrument }}
+                                                        </option>
+                                                    </select>
+                                                </span>
+                                                <span class="form-control inline">
+                                                    <label class="label" for="lowInst">
+                                                        <span class="label-text">低音樂部器</span>
+                                                    </label>
+                                                    <select name="high" id="lowInst" class="input input-xs input-bordered"
+                                                        v-model="lowInstrument">
+                                                        <option v-for="instrument in instrumentChoices">
+                                                            {{ instrument }}
+                                                        </option>
+                                                    </select>
+                                                </span>
+                                                <button type="button" @click="fetchMusicXML"
+                                                    class="btn btn-primary btn-xs">重新產生樂譜</button>
+                                            </div>
+                                            <div class="flex space-x-2 justify-end">
+                                                <a id="exportMidi" class="btn btn-outline btn-xs">Export MIDI</a>
+                                                <a id="exportWav" class="btn btn-outline btn-xs">Export WAV</a>
+                                                <a id="exportMp3" class="btn btn-outline btn-xs">Export MP3</a>
+                                            </div>
+                                        </div>
+                                        <div class="divider"></div>
+                                        <div id="embed-example" class="w-full"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="divider"></div>
-                            <div id="embed-example" class="w-full"></div>
                         </div>
                     </div>
                 </div>
@@ -86,6 +99,8 @@ import { useStore } from 'vuex'
 import Embed from 'flat-embed';
 import axios from 'axios';
 import MidiConverter from '../utils/midiConverter.js';
+import Sidebar from '../components/Sidebar.vue'
+import MusicDataUploadForm from '../components/forms/MusicDataUploadForm.vue'
 const store = useStore()
 const title = ref('Music')
 const subTitle = ref('腦波音樂')

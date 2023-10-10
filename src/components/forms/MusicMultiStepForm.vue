@@ -1,13 +1,12 @@
 <template>
-  <label for="formModal" class="btn btn-sm btn-primary modal-button">新增紀錄</label>
+  <label for="formModal" class="btn btn-sm btn-primary modal-button">輸入腦波資料</label>
   <div class="block">
     <input type="checkbox" id="formModal" class="modal-toggle" v-model="showModal">
     <div class="modal">
       <div class="modal-box">
         <div class="modal-action my-2">
           <label for="formModal" class="btn btn-sm btn-ghost">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </label>
@@ -30,13 +29,13 @@
                         </label>
                         <div class="text-xs text-red-600" v-if="!fields[field].fieldValue && isCheckedForm">未輸入或格式錯誤
                         </div>
-                        <select v-if="fields[field].type==='select'" v-model="fields[field].fieldValue"
+                        <select v-if="fields[field].type === 'select'" v-model="fields[field].fieldValue"
                           class="select select-bordered">
                           <option v-for="(option, idx) in fields[field].options" :key="idx" :value="option">{{ idx }}.
                             {{ option }}
                           </option>
                         </select>
-                        <input v-else-if="fields[field].type==='file'" ref="fileInput" class="input input-bordered"
+                        <input v-else-if="fields[field].type === 'file'" ref="fileInput" class="input input-bordered"
                           type="file" :required="fields[field].required" @change="fields[field].onChangeFunc" />
                         <input v-else class="input input-bordered" :type="fields[field].type"
                           v-model="fields[field].fieldValue" :required="fields[field].required" />
@@ -67,19 +66,26 @@
 
 <script setup>
 import StepsIndicator from './StepsIndicator.vue'
-import BrainDataRow from '../objects/brainDataRow'
+import BrainDataRow from '../../objects/brainDataRow'
 import { useStore } from 'vuex'
-import FIleHandler from '../utils/fileHandler'
+import FIleHandler from '../../utils/fileHandler'
 import { ref, computed, onMounted, defineProps } from 'vue'
 
-const props = defineProps(['subModeOptions'])
+const props = defineProps({
+  subModeOptions: {
+    default: { 1: '腦波音樂' }
+  },
+  subMode: {
+    default: '腦波音樂'
+  }
+})
 const store = useStore()
 const fileHandler = new FIleHandler()
 
 const steps = ref([
   ['subMode'],
   ['name', 'gender', 'age'],
-  ['fileInput', 'afterDataInput']
+  ['fileInput']
 ])
 const fields = computed(() => {
   return getNewFields()
@@ -96,7 +102,6 @@ const file = ref()
 const dataRowList = computed(() => store.getters.dataRowList)
 const isSubmitted = computed(() => store.getters.isSubmitted)
 const currentStep = computed(() => store.getters.currentStep)
-const subMode = computed(() => store.getters.subMode)
 const totalSteps = computed(() => steps.value.length)
 const isFirstStep = computed(() => currentStep.value === 0)
 const isLastStep = computed(() => currentStep.value === totalSteps.value - 1)
@@ -104,7 +109,7 @@ const fieldErrors = computed(() => errors.value)
 const emptyFields = {
   subMode: {
     label: '模式',
-    fieldValue: '五感測試',
+    fieldValue: props.subMode,
     type: 'select',
     options: props.subModeOptions
   },
@@ -138,7 +143,7 @@ const emptyFields = {
     required: false
   },
   fileInput: {
-    label: '前測檔案',
+    label: '腦波檔案',
     fieldValue: '',
     type: 'file',
     onChangeFunc: loadBeforeData,
@@ -158,7 +163,7 @@ onMounted(() => {
 
 function getNewFields() {
   const newFields = Object.assign({}, emptyFields)
-  newFields.name.fieldValue = 'User' + (dataRowList.value.length + 1)
+  newFields.name.fieldValue = 'MusicUser' + (dataRowList.value.length + 1)
   return newFields
 }
 
@@ -196,6 +201,7 @@ function submit() {
     brainDataRow.value.email = fields.value.email.fieldValue
     brainDataRow.value.gender = fields.value.gender.fieldValue
     brainDataRow.value.age = fields.value.age.fieldValue
+    brainDataRow.value.subMode = fields.value.subMode.fieldValue
     store.commit('setSubMode', fields.value.subMode.fieldValue)
     store.commit('pushDataItem', brainDataRow.value)
     resetSteps()
@@ -267,6 +273,4 @@ function loadAfterData(event) {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

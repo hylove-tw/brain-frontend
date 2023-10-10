@@ -3,6 +3,7 @@ import Utils from './utils'
 const utils = new Utils()
 export default class BrainDataRow {
     constructor(subMode = '', name = '', gender = '', email = '', age = '', setIsSubmitted = false) {
+        this.subMode = subMode
         this.name = name
         this.email = email
         this.gender = gender
