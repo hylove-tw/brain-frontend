@@ -154,7 +154,7 @@ const subMode = computed(() => {
   if (isSubModeInOptions(store.getters.subMode)) {
     return store.getters.subMode
   } else {
-    return currentData.value.subMode
+    return currentData.value?.subMode || '五感測試'
   }
 })
 
