@@ -7,7 +7,7 @@
           <DataUploadForm :sub-mode-options="subModeOptions" :sub-mode="subMode"></DataUploadForm>
         </div>
       </div>
-      <div class="md:col-span-3" ref="targetElement">
+      <div class="md:col-span-3" id="main-content-node">
 
         <div class="w-full">
           <div class="flex flex-col gap-6">
@@ -38,6 +38,9 @@
               <div id="reports" class="grid grid-cols-1 flex justify-center my-2 md:my-4">
                 <div class="card bg-base-100">
                   <div class="card-body p-2" v-if="dataRows?.length">
+                    <div class="flex px-4 justify-end">
+                      <button class="btn btn-sm btn-outline" @click="downloadHtml">下載分析結果</button>
+                    </div>
                     <div class="tabs flex justify-center">
                       <a @click="changeTab('report')" class="tab tab-bordered"
                         :class="{ 'tab-active': activeTab === 'report' }" v-if="subMode !== '五感測試'">分析結果</a>
@@ -115,9 +118,11 @@ import Interactive from '../components/reports/Interactive.vue'
 import { useStore } from 'vuex'
 import { ref, watch } from 'vue'
 import { computed } from '@vue/reactivity'
+import { saveAs } from 'file-saver';
+import domtoimage from 'dom-to-image';
 
 const store = useStore()
-
+const targetElement = ref(null)
 const isSalesMode = ref(false)
 const salesModeTabs = ref(['basicData', 'slope'])
 const subModeOptions = ref({
@@ -127,6 +132,7 @@ const subModeOptions = ref({
   3: 'H.R評估參考模式',
   4: '天賦潛能評估模式',
 })
+
 
 const dataRows = computed(() => {
   const originalRows = store.getters.dataRowList;
@@ -168,6 +174,21 @@ const updateSubMode = (e) => {
 const changeTab = (tab) => {
   activeTab.value = tab
 }
+
+async function downloadHtml() {
+  const filename = `${currentData.value.name}_report.png`;
+  try {
+    const node = document.getElementById('main-content-node'); // 將目標 HTML 畫面指定為具有特定 ref 的元素
+
+    // 使用 dom-to-image 將目標 HTML 畫面轉換為圖片（如 PNG）
+    domtoimage.toBlob(node)
+      .then(function (blob) {
+        saveAs(blob, filename);
+      });
+  } catch (error) {
+    console.error('Failed to download the HTML:', error);
+  }
+};
 
 watch(() => subMode, (newVal) => {
   if (newVal === '五感測試') {
