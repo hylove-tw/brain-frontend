@@ -6,7 +6,6 @@
       <Navbar></Navbar>
       <!-- Page content here -->
       <div class="flex flex-col items-center h-full justify-between" v-if="isAuthenticated">
-
         <router-view></router-view>
         <Footer></Footer>
       </div>
