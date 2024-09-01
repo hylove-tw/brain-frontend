@@ -11,64 +11,81 @@ const subTitle = ref('社交平台')
 const message = ref('請輸入配對雙方的腦波資料')
 const currentData = ref(null)
 const fileHandler = new FIleHandler()
+const scopeNameList = ref(['心靈精神', '博學技能', '人脈關係', '物質享受'])
+const fieldNameMap = ref({
+    'p': '質能指數',
+    'r': '耗損指數',
+    'first_test': '會談前',
+    'second_test': '會談後',
+    'first_person': '甲方',
+    'second_person': '乙方',
+})
 
 const sampleResponse = {
     "first_test": {
         "p1": {
-            "first_user_energy": 0.5073786114948637,
-            "second_user_energy": 0.49262138850513637,
+            "first_user_energy": 0.50,
+            "second_user_energy": 0.49,
             "comment_user_energy": "本項質能甲方之分擔付出略高於乙方",
-            "resonance_probability": 55.587783397073856,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有共識"
+            "resonance_score": null,
+            'comment_resonance_score': null,
+            "consensus_probability": 55.58,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r1": {
-            "first_user_energy": 0.16194891726750227,
-            "second_user_energy": 0.8380510827324977,
-            "square_root": 0.8535555453942222,
-            "aupn": 0.18973447966143167,
-            "bupn": 0.9818354379566903
+            "first_user_energy": 0.16,
+            "second_user_energy": 0.83,
+            "square_root": 0.85,
+            "aupn": 0.18,
+            "bupn": 0.98
         },
         "p2": {
-            "first_user_energy": 0.5050129633160714,
-            "second_user_energy": 0.4949870366839286,
+            "first_user_energy": 0.50,
+            "second_user_energy": 0.49,
             "comment_user_energy": "本項質能甲方之成就表現略高於乙方",
-            "resonance_probability": 58.01449068656727,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有共識"
+            "resonance_score": null,
+            'comment_resonance_score': null,
+            "consensus_probability": 58.01,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r2": {
-            "first_user_energy": 0.21342998028502483,
-            "second_user_energy": 0.7865700197149752,
-            "square_root": 0.8150121179460356,
-            "aupn": 0.26187338272086486,
-            "bupn": 0.9651022388443264
+            "first_user_energy": 0.21,
+            "second_user_energy": 0.78,
+            "square_root": 0.81,
+            "aupn": 0.26,
+            "bupn": 0.96
         },
         "p3": {
-            "first_user_energy": 0.44197326742098364,
-            "second_user_energy": 0.5580267325790164,
+            "first_user_energy": 0.44,
+            "second_user_energy": 0.55,
             "comment_user_energy": "本項質能乙方之表現能量遠高於甲方",
-            "resonance_probability": 34.50419796984709,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有爭議"
+            "resonance_score": null,
+            'comment_resonance_score': null,
+            "consensus_probability": 34.50,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r3": {
-            "first_user_energy": 0.2584835728920942,
-            "second_user_energy": 0.7415164271079058,
-            "square_root": 0.7852772562133304,
-            "aupn": 0.3291621791499764,
-            "bupn": 0.94427340310804
+            "first_user_energy": 0.25,
+            "second_user_energy": 0.74,
+            "square_root": 0.784,
+            "aupn": 0.32,
+            "bupn": 0.94
         },
         "p4": {
-            "first_user_energy": 0.4499615718267746,
-            "second_user_energy": 0.5500384281732253,
+            "first_user_energy": 0.44,
+            "second_user_energy": 0.55,
             "comment_user_energy": "本項質能乙方之付出貢獻遠高於甲方",
-            "resonance_probability": 27.321213963603444,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有爭議"
+            "resonance_score": null,
+            'comment_resonance_score': null,
+            "consensus_probability": 27.32,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r4": {
-            "first_user_energy": 0.22526659583339537,
-            "second_user_energy": 0.7747334041666047,
-            "square_root": 0.8068189925441406,
-            "aupn": 0.27920338751950136,
-            "bupn": 0.9602319867603012
+            "first_user_energy": 0.22,
+            "second_user_energy": 0.77,
+            "square_root": 0.80,
+            "aupn": 0.27,
+            "bupn": 0.96
         },
         "sentiment_avg": {
             "first_person": {
@@ -79,8 +96,8 @@ const sampleResponse = {
                 "avg_tw": "正常狀態,平常心情",
                 "avg_en": "normal state normal mood"
             },
-            "first_person_avg": 0.259,
-            "second_person_avg": -0.093
+            "first_person_avg": 0.25,
+            "second_person_avg": -0.09
         },
         "TesScore": {
             "first_person": 79.29,
@@ -89,60 +106,68 @@ const sampleResponse = {
     },
     "second_test": {
         "p1": {
-            "first_user_energy": 0.5417276072205031,
-            "second_user_energy": 0.45827239277949694,
+            "first_user_energy": 0.54,
+            "second_user_energy": 0.45,
             "comment_user_energy": "本項質能甲方之分擔付出略高於乙方",
-            "resonance_probability": 63.79956800794188,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有共識"
+            "resonance_score": 0.50,
+            'comment_resonance_score': '極好的共振效益，雙方契合度非常高',
+            "consensus_probability": 63.79,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r1": {
-            "first_user_energy": 0.6897600637105232,
-            "second_user_energy": 0.31023993628947677,
-            "square_root": 0.7563185595758204,
-            "aupn": 0.9119967439346902,
-            "bupn": 0.4101974391101471
+            "first_user_energy": 0.68,
+            "second_user_energy": 0.31,
+            "square_root": 0.75,
+            "aupn": 0.91,
+            "bupn": 0.41
         },
         "p2": {
-            "first_user_energy": 0.5696443658933703,
-            "second_user_energy": 0.4303556341066298,
+            "first_user_energy": 0.56,
+            "second_user_energy": 0.43,
             "comment_user_energy": "本項質能甲方之成就表現遠高於乙方",
-            "resonance_probability": 75.26691160323905,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有共識"
+            "resonance_score": 0.50,
+            "comment_resonance_score": '共振效益稍差，雙方須互補',
+            "consensus_probability": 75.26,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r2": {
-            "first_user_energy": 0.7498571951459002,
-            "second_user_energy": 0.2501428048540998,
-            "square_root": 0.7904791179609699,
-            "aupn": 0.9486110108514272,
-            "bupn": 0.3164445450492604
+            "first_user_energy": 0.74,
+            "second_user_energy": 0.25,
+            "square_root": 0.79,
+            "aupn": 0.94,
+            "bupn": 0.31
         },
         "p3": {
-            "first_user_energy": 0.6457820752655901,
-            "second_user_energy": 0.3542179247344099,
+            "first_user_energy": 0.64,
+            "second_user_energy": 0.35,
             "comment_user_energy": "本項質能甲方之表現能量遠高於乙方",
-            "resonance_probability": 79.4230190305254,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有共識"
+            "resonance_score": 0.50,
+            'comment_resonance_score': '極好的共振效益，雙方契合度非常高',
+            "consensus_probability": 79.42,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r3": {
-            "first_user_energy": 0.7680691214118897,
-            "second_user_energy": 0.2319308785881104,
-            "square_root": 0.8023229447729168,
-            "aupn": 0.957306688554542,
-            "bupn": 0.28907421892783375
+            "first_user_energy": 0.76,
+            "second_user_energy": 0.23,
+            "square_root": 0.80,
+            "aupn": 0.95,
+            "bupn": 0.28
         },
         "p4": {
-            "first_user_energy": 0.48055002642415773,
-            "second_user_energy": 0.5194499735758423,
+            "first_user_energy": 0.48,
+            "second_user_energy": 0.51,
             "comment_user_energy": "本項質能乙方之付出貢獻略高於甲方",
-            "resonance_probability": 30.8967270727273,
-            "comment_resonance_probability": "甲乙雙方對此質能處理態度有爭議"
+            "resonance_score": 0.50,
+            'comment_resonance_score': '共振效益尚可，雙方契合度正常',
+            "consensus_probability": 30.89,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r4": {
-            "first_user_energy": 0.7127135244470342,
-            "second_user_energy": 0.2872864755529659,
-            "square_root": 0.768436130700111,
-            "aupn": 0.9274857024196549,
-            "bupn": 0.37385862542827514
+            "first_user_energy": 0.71,
+            "second_user_energy": 0.28,
+            "square_root": 0.76,
+            "aupn": 0.92,
+            "bupn": 0.37
         },
         "sentiment_avg": {
             "first_person": {
@@ -153,8 +178,8 @@ const sampleResponse = {
                 "avg_tw": "正常狀態,平常心情",
                 "avg_en": "normal state normal mood"
             },
-            "first_person_avg": 0.833,
-            "second_person_avg": -0.093
+            "first_person_avg": 0.83,
+            "second_person_avg": -0.09
         },
         "TesScore": {
             "first_person": 73.56,
@@ -342,66 +367,255 @@ const preparePayload = (filesData) => {
                                     </header>
                                 </div>
                                 <div class="text-sm font-semibold">{{ message }}</div>
-                                <div v-show="currentData">
-                                    <div class="space-y-4">
-                                        <div class="flex flex-col space-y-2 space-x-2 justify-between">
-                                            <div class="flex space-x-2 justify-between items-end">
-                                                <!-- report -->
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>天賦潛能（第一次）</th>
-                                                            <th>會談前之情緒評語</th>
-                                                            <th>天賦潛能（第二次）</th>
-                                                            <th>會談後之情緒評語</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>甲方（A）</td>
-                                                            <td>
-                                                                <div>{{
+                                <div v-if="currentData">
+                                    <!-- A report -->
+                                    <div class="space-y-4 py-2">
+                                        <div class="space-x-2 justify-between items-end">
+                                            <div class="text-2xl">A. 情緒評語報告</div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>天賦潛能（第一次）</th>
+                                                        <th>會談前之情緒評語</th>
+                                                        <th>天賦潛能（第二次）</th>
+                                                        <th>會談後之情緒評語</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{ fieldNameMap['first_person'] }}（A）</td>
+                                                        <td>
+                                                            <div>
+                                                                {{
                         currentData.first_test.sentiment_avg.first_person_avg
-                    }}</div>
-                                                                <div>{{
+                    }}
+                                                            </div>
+                                                            <div>
+                                                                {{
                             currentData.first_test.sentiment_avg.first_person.avg_tw
-                        }}</div>
-                                                            </td>
-                                                            <td>甲方（A）</td>
-                                                            <td>
-                                                                <div>{{
-                            currentData.second_test.sentiment_avg.first_person_avg
-                        }}</div>
-                                                                <div>{{
+                        }}
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ fieldNameMap['first_person'] }}（A）</td>
+                                                        <td>
+                                                            <div>
+                                                                {{
+                        currentData.second_test.sentiment_avg.first_person_avg
+                    }}
+                                                            </div>
+                                                            <div>
+                                                                {{
                             currentData.second_test.sentiment_avg.first_person.avg_tw
-                        }}</div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>乙方（B）</td>
-                                                            <td>
-                                                                <div>{{
-                            currentData.first_test.sentiment_avg.second_person_avg
-                        }}</div>
-                                                                <div>{{
+                        }}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ fieldNameMap['second_person'] }}（B）</td>
+                                                        <td>
+                                                            <div>
+                                                                {{
+                        currentData.first_test.sentiment_avg.second_person_avg
+                    }}
+                                                            </div>
+                                                            <div>
+                                                                {{
                             currentData.first_test.sentiment_avg.second_person.avg_tw
-                                                                    }}</div>
-                                                            </td>
-                                                            <td>乙方（B）</td>
-                                                            <td>
-                                                                <div>{{
-                                                                    currentData.first_test.sentiment_avg.second_person_avg
-                                                                    }}</div>
-                                                                <div>{{
-                                                                    currentData.first_test.sentiment_avg.second_person.avg_tw
-                                                                    }}</div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                        }}
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ fieldNameMap['second_person'] }}（B）</td>
+                                                        <td>
+                                                            <div>
+                                                                {{
+                        currentData.first_test.sentiment_avg.second_person_avg
+                    }}
+                                                            </div>
+                                                            <div>
+                                                                {{
+                            currentData.first_test.sentiment_avg.second_person.avg_tw
+                        }}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        <div class="divider"></div>
+                                    </div>
+                                    <div class="divider"></div>
+                                    <!-- C report -->
+                                    <div class="space-y-4 py-2">
+                                        <div class="space-x-2 justify-between items-end">
+                                            <div class="text-2xl">C. 四項志趣觀點之質能報告</div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>項目</th>
+                                                        <th v-for="sName in scopeNameList">{{ sName }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['first_person'] }}{{
+                        fieldNameMap['first_test'] }}{{ fieldNameMap['p'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{
+                        currentData.first_test.p1.first_user_energy
+                    }}
+                                                        </td>
+                                                        <td>
+                                                            {{
+                            currentData.first_test.p2.first_user_energy
+                        }}
+                                                        </td>
+                                                        <td>
+                                                            {{
+                            currentData.first_test.p3.first_user_energy
+                        }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.p4.first_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['first_person'] }}{{
+                        fieldNameMap['second_test'] }}{{ fieldNameMap['p'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p1.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p2.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p3.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p4.first_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['second_person'] }}{{
+                        fieldNameMap['first_test'] }}{{ fieldNameMap['p'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.p1.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.p2.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.p3.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.p4.second_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['second_person'] }}{{
+                        fieldNameMap['second_test'] }}{{ fieldNameMap['p'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p1.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p2.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p3.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.p4.second_user_energy }}
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['second_person'] }}{{
+                        fieldNameMap['first_test'] }}{{ fieldNameMap['r'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r1.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r2.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r3.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r4.second_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['second_person'] }}{{
+                        fieldNameMap['second_test'] }}{{ fieldNameMap['r'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r1.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r2.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r3.second_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r4.second_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['first_person'] }}{{
+                                                            fieldNameMap['first_test'] }}{{ fieldNameMap['r'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r1.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r2.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r3.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.first_test.r4.first_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            {{ fieldNameMap['first_person'] }}{{
+                                                            fieldNameMap['second_test'] }}{{ fieldNameMap['r'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r1.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r2.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r3.first_user_energy }}
+                                                        </td>
+                                                        <td>
+                                                            {{ currentData.second_test.r4.first_user_energy }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>雙方會談質能共振指數比</td>
+                                                        <td>{{ currentData.second_test.p1.resonance_score }}</td>
+                                                        <td>{{ currentData.second_test.p2.resonance_score }}</td>
+                                                        <td>{{ currentData.second_test.p3.resonance_score }}</td>
+                                                        <td>{{ currentData.second_test.p4.resonance_score }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
