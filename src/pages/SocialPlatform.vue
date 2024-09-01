@@ -83,7 +83,7 @@ const sampleResponse = {
             "second_person_avg": -0.093
         },
         "TesScore": {
-            "first_preson": 79.29,
+            "first_person": 79.29,
             "second_person": 80.0
         }
     },
@@ -157,7 +157,7 @@ const sampleResponse = {
             "second_person_avg": -0.093
         },
         "TesScore": {
-            "first_preson": 73.56,
+            "first_person": 73.56,
             "second_person": 80.0
         }
     },
@@ -347,74 +347,58 @@ const preparePayload = (filesData) => {
                                         <div class="flex flex-col space-y-2 space-x-2 justify-between">
                                             <div class="flex space-x-2 justify-between items-end">
                                                 <!-- report -->
-                                                <div class="flex flex-col space-y-2">
-                                                    <div class="flex flex-col space-y-2">
-                                                        <h3 class="text-lg font-bold">第一次測試</h3>
-                                                        <div class="flex flex-col space-y-2">
-                                                            <div class="flex flex-col space-y-2">
-                                                                <h4 class="font-xl font-bold">第一項質能</h4>
-                                                                <div class="flex flex-col space-y-2">
-                                                                    <div class="flex flex-col space-y-2">
-                                                                        <h5 class="font-lg font-bold">甲方</h5>
-                                                                        <div class="flex flex-col space-y-2">
-                                                                            <div class="flex flex-col space-y-2">
-                                                                                <h6 class="font-md font-bold">能量</h6>
-                                                                                <p>{{
-                        currentData?.first_test.p1.first_user_energy
-                    }}</p>
-                                                                            </div>
-                                                                            <div class="flex flex-col space-y-2">
-                                                                                <h6 class="font-md font-bold">共振機率</h6>
-                                                                                <p>{{
-                            currentData?.first_test.p1.resonance_probability
-                        }}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="flex flex-col space-y-2">
-                                                                        <h5 class="font-lg font-bold">乙方</h5>
-                                                                        <div class="flex flex-col space-y-2">
-                                                                            <div class="flex flex-col space-y-2">
-                                                                                <h6 class="font-md font-bold">能量</h6>
-                                                                                <p>{{
-                            currentData?.first_test.p1.second_user_energy
-                        }}</p>
-                                                                            </div>
-                                                                            <div class="flex flex-col space-y-2">
-                                                                                <h6 class="font-md font-bold">共振機率</h6>
-                                                                                <p>{{
-                            currentData?.first_test.p1.resonance_probability
-                        }}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="flex flex-col space-y-2">
-                                                                <h4 class="font-xl font-bold">第二項質能</h4>
-                                                                <div class="flex flex-col space-y-2">
-                                                                    <div class="flex flex-col space-y-2">
-                                                                        <h5 class="font-lg font-bold">甲方</h5>
-                                                                        <div class="flex flex-col space-y-2">
-                                                                            <div class="flex flex-col space-y-2">
-                                                                                <h6 class="font-md font-bold">能量</h6>
-                                                                                <p>{{
-                                                                                    currentData?.first_test.p2.first_user_energy
-                                                                                    }}</p>
-                                                                            </div>
-                                                                            <div class="flex flex-col space-y-2">
-                                                                                <h6 class="font-md font-bold">共振機率</h6>
-                                                                                <p>{{
-                                                                                    currentData?.first_test.p2.resonance_probability
-                                                                                    }}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>天賦潛能（第一次）</th>
+                                                            <th>會談前之情緒評語</th>
+                                                            <th>天賦潛能（第二次）</th>
+                                                            <th>會談後之情緒評語</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>甲方（A）</td>
+                                                            <td>
+                                                                <div>{{
+                        currentData.first_test.sentiment_avg.first_person_avg
+                    }}</div>
+                                                                <div>{{
+                            currentData.first_test.sentiment_avg.first_person.avg_tw
+                        }}</div>
+                                                            </td>
+                                                            <td>甲方（A）</td>
+                                                            <td>
+                                                                <div>{{
+                            currentData.second_test.sentiment_avg.first_person_avg
+                        }}</div>
+                                                                <div>{{
+                            currentData.second_test.sentiment_avg.first_person.avg_tw
+                        }}</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>乙方（B）</td>
+                                                            <td>
+                                                                <div>{{
+                            currentData.first_test.sentiment_avg.second_person_avg
+                        }}</div>
+                                                                <div>{{
+                            currentData.first_test.sentiment_avg.second_person.avg_tw
+                                                                    }}</div>
+                                                            </td>
+                                                            <td>乙方（B）</td>
+                                                            <td>
+                                                                <div>{{
+                                                                    currentData.first_test.sentiment_avg.second_person_avg
+                                                                    }}</div>
+                                                                <div>{{
+                                                                    currentData.first_test.sentiment_avg.second_person.avg_tw
+                                                                    }}</div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                         <div class="divider"></div>
