@@ -556,13 +556,13 @@ const preparePayload = (filesData) => {
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                                                            fieldNameMap.second_test }}{{ fieldNameMap.r }}
+                        fieldNameMap.second_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                                                            currentData.second_test["r" + (index +
-                                                            1)].second_user_energy
-                                                            }}
+                        currentData.second_test["r" + (index +
+                            1)].second_user_energy
+                    }}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -611,6 +611,14 @@ const preparePayload = (filesData) => {
                                                             「非理性」「情緒性」意見衝突之機率
                                                         </td>
                                                         <td class="border" v-for="(sName, index) in scopeNameList">
+                                                            <p>{{fieldNameMap.first_person}}約: {{
+                                                                currentData.second_test["r" +
+                                                                (index+1)].aupn
+                                                                }}</p>
+                                                            <p>{{fieldNameMap.second_person}}約: {{
+                                                                currentData.second_test["r" +
+                                                                (index+1)].bupn
+                                                                }}</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
