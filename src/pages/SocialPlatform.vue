@@ -199,6 +199,16 @@ const sampleResponse = {
         "TesScore": {
             "first_person": 73.56,
             "second_person": 80.0
+        },
+        "resonance_percentage": {
+            "natural_science": 0.49,
+            "innovative_art": 0.49,
+            "logical_judgment": 0.56,
+            "memory_calculation": 0.69,
+            "lively_and_gregarious": 0.52,
+            "social_pr": 0.63,
+            "perseverance": 0.59,
+            "witty_response": 0.49
         }
     },
     "at1": {
@@ -458,6 +468,131 @@ const preparePayload = (filesData) => {
                                         </div>
                                     </div>
                                     <div class="divider"></div>
+                                    <!-- B report -->
+                                    <div class="space-y-4 py-2">
+                                        <div class="space-x-2 justify-between items-end">
+                                            <div class="text-2xl">B. 雙方共振百分比測試報告: (第二次「天賦潛能」測試)</div>
+                                            <table class="table w-full">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>創新藝術</span>
+                                                                <span>Innovative art</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.innovative_art
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>生命科學</span>
+                                                                <span>Innovative art</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.natural_science
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>活潑合群</span>
+                                                                <span>Lively and gregarious</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.lively_and_gregarious
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>邏輯判斷</span>
+                                                                <span>Logical judgment</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.logical_judgment
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="space-y-2">
+                                                            <div class="flex flex-col">
+                                                                <span>總能量TE(Total Energy)</span>
+                                                                <span>{{ fieldNameMap.first_person }}={{
+                        currentData.second_test.TesScore.first_person
+                    }}</span>
+                                                                <span>{{ fieldNameMap.second_person }}={{
+                        currentData.second_test.TesScore.second_person
+                    }}</span>
+                                                            </div>
+                                                            <div class="flex flex-col">
+                                                                <span>情緒平均分數</span>
+                                                                <span>{{ fieldNameMap.first_person }}={{
+                        currentData.second_test.sentiment_avg.first_person_avg
+                    }}</span>
+                                                                <span>{{ fieldNameMap.second_person }}={{
+                        currentData.second_test.sentiment_avg.second_person_avg
+                    }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>社交公關</span>
+                                                                <span>Social PR</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            currentData.second_test.resonance_percentage.social_pr
+                            * 100
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>記憶計算</span>
+                                                                <span>Memory calculation</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.memory_calculation
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>機智反應</span>
+                                                                <span>Witty response</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.witty_response
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="flex flex-col">
+                                                                <span>堅毅忍耐</span>
+                                                                <span>Perseverance</span>
+                                                                <span>
+                                                                    共振百分比={{
+                            Math.round(currentData.second_test.resonance_percentage.perseverance
+                                * 100)
+                        }}%</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
                                     <!-- C report -->
                                     <div class="space-y-4 py-2">
                                         <div class="space-x-2 justify-between items-end">
@@ -537,32 +672,32 @@ const preparePayload = (filesData) => {
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
                         currentData.second_test["r" + (index +
-                            1)].first_user_energy
-                    }}
+                                                            1)].first_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                        fieldNameMap.first_test }}{{ fieldNameMap.r }}
+                                                            fieldNameMap.first_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.first_test["r" + (index +
-                            1)].second_user_energy
-                    }}
+                                                            currentData.first_test["r" + (index +
+                                                            1)].second_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                        fieldNameMap.second_test }}{{ fieldNameMap.r }}
+                                                            fieldNameMap.second_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.second_test["r" + (index +
-                            1)].second_user_energy
-                    }}
+                                                            currentData.second_test["r" + (index +
+                                                            1)].second_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
