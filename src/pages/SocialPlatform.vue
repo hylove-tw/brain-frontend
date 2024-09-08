@@ -29,72 +29,64 @@ const fieldNameMap = ref({
     'first_person': '甲方',
     'second_person': '乙方',
 })
-
+const useMockResponse = false
 const sampleResponse = {
     "first_test": {
         "p1": {
-            "first_user_energy": 0.50,
-            "second_user_energy": 0.49,
-            "comment_user_energy": "本項質能甲方之分擔付出略高於乙方",
-            "resonance_score": null,
-            'comment_resonance_score': null,
-            "consensus_probability": 55.58,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之分擔付出相當",
+            "consensus_probability": 57.26,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r1": {
-            "first_user_energy": 0.16,
-            "second_user_energy": 0.83,
-            "square_root": 0.85,
-            "aupn": 0.18,
-            "bupn": 0.98
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "p2": {
-            "first_user_energy": 0.50,
-            "second_user_energy": 0.49,
-            "comment_user_energy": "本項質能甲方之成就表現略高於乙方",
-            "resonance_score": null,
-            'comment_resonance_score': null,
-            "consensus_probability": 58.01,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之表現成就相當",
+            "consensus_probability": 59.19,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r2": {
-            "first_user_energy": 0.21,
-            "second_user_energy": 0.78,
-            "square_root": 0.81,
-            "aupn": 0.26,
-            "bupn": 0.96
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "p3": {
-            "first_user_energy": 0.44,
-            "second_user_energy": 0.55,
-            "comment_user_energy": "本項質能乙方之表現能量遠高於甲方",
-            "resonance_score": null,
-            'comment_resonance_score': null,
-            "consensus_probability": 34.50,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之表現能量相當",
+            "consensus_probability": 27.33,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r3": {
-            "first_user_energy": 0.25,
-            "second_user_energy": 0.74,
-            "square_root": 0.784,
-            "aupn": 0.32,
-            "bupn": 0.94
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "p4": {
-            "first_user_energy": 0.44,
-            "second_user_energy": 0.55,
-            "comment_user_energy": "本項質能乙方之付出貢獻遠高於甲方",
-            "resonance_score": null,
-            'comment_resonance_score': null,
-            "consensus_probability": 27.32,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之分擔付出相當",
+            "consensus_probability": 22.36,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r4": {
-            "first_user_energy": 0.22,
-            "second_user_energy": 0.77,
-            "square_root": 0.80,
-            "aupn": 0.27,
-            "bupn": 0.96
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "sentiment_avg": {
             "first_person": {
@@ -105,84 +97,70 @@ const sampleResponse = {
                 "avg_tw": "正常狀態,平常心情",
                 "avg_en": "normal state normal mood"
             },
-            "first_person_avg": 0.25,
-            "second_person_avg": -0.09
+            "first_person_avg": 0.259,
+            "second_person_avg": 0.259
         },
-        "TesScore": {
+        "tes_score": {
             "first_person": 79.29,
-            "second_person": 80.0
+            "second_person": 79.29
         }
     },
     "second_test": {
         "p1": {
-            "first_user_energy": 0.54,
-            "second_user_energy": 0.45,
-            "comment_user_energy": "本項質能甲方之分擔付出略高於乙方",
-            "resonance_score": 0.50,
-            'comment_resonance_score': '極好的共振效益，雙方契合度非常高',
-            "consensus_probability": 63.79,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之分擔付出相當",
+            "consensus_probability": 57.26,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r1": {
-            "first_user_energy": 0.68,
-            "second_user_energy": 0.31,
-            "square_root": 0.75,
-            "aupn": 0.91,
-            "bupn": 0.41
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "p2": {
-            "first_user_energy": 0.56,
-            "second_user_energy": 0.43,
-            "comment_user_energy": "本項質能甲方之成就表現遠高於乙方",
-            "resonance_score": 0.50,
-            "comment_resonance_score": '共振效益稍差，雙方須互補',
-            "consensus_probability": 75.26,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之表現成就相當",
+            "consensus_probability": 59.19,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
         },
         "r2": {
-            "first_user_energy": 0.74,
-            "second_user_energy": 0.25,
-            "square_root": 0.79,
-            "aupn": 0.94,
-            "bupn": 0.31
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "p3": {
-            "first_user_energy": 0.64,
-            "second_user_energy": 0.35,
-            "comment_user_energy": "本項質能甲方之表現能量遠高於乙方",
-            "resonance_score": 0.50,
-            'comment_resonance_score': '極好的共振效益，雙方契合度非常高',
-            "consensus_probability": 79.42,
-            "comment_consensus_probability": "甲乙雙方對此質能處理態度有共識"
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之表現能量相當",
+            "consensus_probability": 27.33,
+            "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r3": {
-            "first_user_energy": 0.76,
-            "second_user_energy": 0.23,
-            "square_root": 0.80,
-            "aupn": 0.95,
-            "bupn": 0.28
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "p4": {
-            "first_user_energy": 0.48,
-            "second_user_energy": 0.51,
-            "comment_user_energy": "本項質能乙方之付出貢獻略高於甲方",
-            "resonance_score": 0.50,
-            'comment_resonance_score': '共振效益尚可，雙方契合度正常',
-            "consensus_probability": 30.89,
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "comment_user_energy": "本項質能雙方之分擔付出相當",
+            "consensus_probability": 22.36,
             "comment_consensus_probability": "甲乙雙方對此質能處理態度有爭議"
         },
         "r4": {
-            "first_user_energy": 0.71,
-            "second_user_energy": 0.28,
-            "square_root": 0.76,
-            "aupn": 0.92,
-            "bupn": 0.37
-        },
-        "resonance_score": {
-            "spiritual_mentality": 0.50,
-            "scholarly_skills": 0.50,
-            "social_connections": 0.50,
-            "material_enjoyment": 0.50
+            "first_user_energy": 0.5,
+            "second_user_energy": 0.5,
+            "square_root": 0.71,
+            "aupn": 0.71,
+            "bupn": 0.71
         },
         "sentiment_avg": {
             "first_person": {
@@ -193,22 +171,28 @@ const sampleResponse = {
                 "avg_tw": "正常狀態,平常心情",
                 "avg_en": "normal state normal mood"
             },
-            "first_person_avg": 0.83,
-            "second_person_avg": -0.09
+            "first_person_avg": 0.259,
+            "second_person_avg": 0.259
         },
-        "TesScore": {
-            "first_person": 73.56,
-            "second_person": 80.0
+        "tes_score": {
+            "first_person": 79.29,
+            "second_person": 79.29
+        },
+        "resonance_score": {
+            "spiritual_mentality": null,
+            "scholarly_skills": null,
+            "social_connections": null,
+            "material_enjoyment": null
         },
         "resonance_percentage": {
-            "natural_science": 0.49,
-            "innovative_art": 0.49,
-            "logical_judgment": 0.56,
-            "memory_calculation": 0.69,
-            "lively_and_gregarious": 0.52,
-            "social_pr": 0.63,
-            "perseverance": 0.59,
-            "witty_response": 0.49
+            "natural_science": null,
+            "innovative_art": null,
+            "logical_judgment": null,
+            "memory_calculation": null,
+            "lively_and_gregarious": null,
+            "social_pr": null,
+            "perseverance": null,
+            "witty_response": null
         }
     },
     "at1": {
@@ -216,8 +200,8 @@ const sampleResponse = {
         "comment_en": "Before the talks, the two sides seriously attitude were normal"
     },
     "at2": {
-        "comment": "會談中甲方積極認真",
-        "comment_en": "Party A is positive and serious during the talks"
+        "comment": "會談中雙方認真態度皆正常",
+        "comment_en": "The serious attitude of both sides in the talks is normal"
     }
 }
 
@@ -228,7 +212,6 @@ watch(currentData, (newVal, oldVal) => {
 
 onMounted(() => {
     if (currentData.value) {
-        // fetchMusicXML(currentData.value)
     }
 })
 
@@ -264,7 +247,9 @@ const parseBrainData = (data) => {
 };
 
 const handleFiles = async () => {
-    if (sampleResponse) {
+    console.log('useMockResponse:' + !!useMockResponse);
+    console.log('sampleResponse:' + !!sampleResponse);
+    if (useMockResponse && sampleResponse) {
         renderReport(sampleResponse);
         return;
     }
@@ -338,7 +323,7 @@ const preparePayload = (filesData) => {
                 <div class="card p-2 bg-base-100 shadow-xl">
                     <Sidebar />
                     <form class="flex flex-col space-y-2" @submit.prevent="">
-                        <div v-if="!sampleResponse">
+                        <div v-if="!(useMockResponse && sampleResponse)">
                             <div class="space-y-2">
                                 <h3 class="text-lg font-bold">配對後數據</h3>
                                 <div class="p-2 border rounded-md">
@@ -525,10 +510,10 @@ const preparePayload = (filesData) => {
                                                             <div class="flex flex-col">
                                                                 <span>總能量TE(Total Energy)</span>
                                                                 <span>{{ fieldNameMap.first_person }}={{
-                        currentData.second_test.TesScore.first_person
+                        currentData.second_test.tes_score.first_person
                     }}</span>
                                                                 <span>{{ fieldNameMap.second_person }}={{
-                        currentData.second_test.TesScore.second_person
+                        currentData.second_test.tes_score.second_person
                     }}</span>
                                                             </div>
                                                             <div class="flex flex-col">
@@ -672,7 +657,7 @@ const preparePayload = (filesData) => {
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
                         currentData.second_test["r" + (index +
-                                                            1)].first_user_energy
+                            1)].first_user_energy
                                                             }}
                                                         </td>
                                                     </tr>
