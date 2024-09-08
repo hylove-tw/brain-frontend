@@ -11,10 +11,19 @@ const subTitle = ref('社交平台')
 const message = ref('請輸入配對雙方的腦波資料')
 const currentData = ref(null)
 const fileHandler = new FIleHandler()
-const scopeNameList = ref(['心靈精神', '博學技能', '人脈關係', '物質享受'])
+const scopeNameList = ref([
+    { "verbose_name": '心靈精神', "key": "spiritual_mentality" },
+    { "verbose_name": '博學技能', "key": "scholarly_skills" },
+    { "verbose_name": '人脈關係', "key": "social_connections" },
+    { "verbose_name": '物質享受', "key": "material_enjoyment" }
+])
 const fieldNameMap = ref({
     'p': '質能指數',
     'r': '耗損指數',
+    'spiritual_mentality': '心靈精神',
+    'scholarly_skills': '博學技能',
+    'social_connections': '人脈關係',
+    'material_enjoyment': '物質享受',
     'first_test': '會談前',
     'second_test': '會談後',
     'first_person': '甲方',
@@ -168,6 +177,12 @@ const sampleResponse = {
             "square_root": 0.76,
             "aupn": 0.92,
             "bupn": 0.37
+        },
+        "resonance_score": {
+            "spiritual_mentality": 0.50,
+            "scholarly_skills": 0.50,
+            "social_connections": 0.50,
+            "material_enjoyment": 0.50
         },
         "sentiment_avg": {
             "first_person": {
@@ -372,7 +387,7 @@ const preparePayload = (filesData) => {
                                     <div class="space-y-4 py-2">
                                         <div class="space-x-2 justify-between items-end">
                                             <div class="text-2xl">A. 情緒評語報告</div>
-                                            <table class="table">
+                                            <table class="table w-full">
                                                 <thead>
                                                     <tr>
                                                         <th>天賦潛能（第一次）</th>
@@ -447,171 +462,167 @@ const preparePayload = (filesData) => {
                                     <div class="space-y-4 py-2">
                                         <div class="space-x-2 justify-between items-end">
                                             <div class="text-2xl">C. 四項志趣觀點之質能報告</div>
-                                            <table class="table">
+                                            <table class="table w-full">
                                                 <thead>
                                                     <tr>
                                                         <th>項目</th>
-                                                        <th v-for="sName in scopeNameList">{{ sName }}</th>
+                                                        <th v-for="sName in scopeNameList">{{ sName.verbose_name }}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <!-- 質能指數 -->
                                                     <tr>
                                                         <td>
-                                                            {{ fieldNameMap['first_person'] }}{{
-                        fieldNameMap['first_test'] }}{{ fieldNameMap['p'] }}
+                                                            {{ fieldNameMap.first_person }}{{
+                        fieldNameMap.first_test }}{{ fieldNameMap.p }}
                                                         </td>
-                                                        <td>
+                                                        <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.first_test.p1.first_user_energy
+                        currentData.first_test["p" + (index + 1)].first_user_energy
                     }}
                                                         </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>
+                                                            {{ fieldNameMap.first_person }}{{
+                        fieldNameMap.second_test }}{{ fieldNameMap.p }}
+                                                        </td>
+                                                        <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                            currentData.first_test.p2.first_user_energy
-                        }}
+                        currentData.second_test["p" + (index + 1)].first_user_energy
+                    }}
                                                         </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>
+                                                            {{ fieldNameMap.second_person }}{{
+                        fieldNameMap.first_test }}{{ fieldNameMap.p }}
+                                                        </td>
+                                                        <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                            currentData.first_test.p3.first_user_energy
-                        }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.p4.first_user_energy }}
+                        currentData.first_test["p" + (index + 1)].second_user_energy
+                    }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            {{ fieldNameMap['first_person'] }}{{
-                        fieldNameMap['second_test'] }}{{ fieldNameMap['p'] }}
+                                                            {{ fieldNameMap.second_person }}{{
+                        fieldNameMap.second_test }}{{ fieldNameMap.p }}
                                                         </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p1.first_user_energy }}
+                                                        <td v-for="(sItem, index) in scopeNameList">
+                                                            {{
+                        currentData.second_test["p" + (index +
+                            1)].second_user_energy
+                    }}
                                                         </td>
+                                                    </tr>
+                                                    <!-- r 耗損指數 -->
+                                                    <tr>
                                                         <td>
-                                                            {{ currentData.second_test.p2.first_user_energy }}
+                                                            {{ fieldNameMap.first_person }}{{
+                        fieldNameMap.first_test }}{{ fieldNameMap.r }}
                                                         </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p3.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p4.first_user_energy }}
+                                                        <td v-for="(sItem, index) in scopeNameList">
+                                                            {{
+                        currentData.first_test["r" + (index +
+                            1)].first_user_energy
+                    }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            {{ fieldNameMap['second_person'] }}{{
-                        fieldNameMap['first_test'] }}{{ fieldNameMap['p'] }}
+                                                            {{ fieldNameMap.first_person }}{{
+                        fieldNameMap.second_test }}{{ fieldNameMap.r }}
                                                         </td>
-                                                        <td>
-                                                            {{ currentData.first_test.p1.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.p2.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.p3.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.p4.second_user_energy }}
+                                                        <td v-for="(sItem, index) in scopeNameList">
+                                                            {{
+                        currentData.second_test["r" + (index +
+                            1)].first_user_energy
+                    }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            {{ fieldNameMap['second_person'] }}{{
-                        fieldNameMap['second_test'] }}{{ fieldNameMap['p'] }}
+                                                            {{ fieldNameMap.second_person }}{{
+                        fieldNameMap.first_test }}{{ fieldNameMap.r }}
                                                         </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p1.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p2.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p3.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.p4.second_user_energy }}
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            {{ fieldNameMap['second_person'] }}{{
-                        fieldNameMap['first_test'] }}{{ fieldNameMap['r'] }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r1.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r2.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r3.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r4.second_user_energy }}
+                                                        <td v-for="(sItem, index) in scopeNameList">
+                                                            {{
+                        currentData.first_test["r" + (index +
+                            1)].second_user_energy
+                    }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            {{ fieldNameMap['second_person'] }}{{
-                        fieldNameMap['second_test'] }}{{ fieldNameMap['r'] }}
+                                                            {{ fieldNameMap.second_person }}{{
+                                                            fieldNameMap.second_test }}{{ fieldNameMap.r }}
                                                         </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r1.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r2.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r3.second_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r4.second_user_energy }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            {{ fieldNameMap['first_person'] }}{{
-                                                            fieldNameMap['first_test'] }}{{ fieldNameMap['r'] }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r1.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r2.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r3.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.first_test.r4.first_user_energy }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            {{ fieldNameMap['first_person'] }}{{
-                                                            fieldNameMap['second_test'] }}{{ fieldNameMap['r'] }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r1.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r2.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r3.first_user_energy }}
-                                                        </td>
-                                                        <td>
-                                                            {{ currentData.second_test.r4.first_user_energy }}
+                                                        <td v-for="(sItem, index) in scopeNameList">
+                                                            {{
+                                                            currentData.second_test["r" + (index +
+                                                            1)].second_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>雙方會談質能共振指數比</td>
-                                                        <td>{{ currentData.second_test.p1.resonance_score }}</td>
-                                                        <td>{{ currentData.second_test.p2.resonance_score }}</td>
-                                                        <td>{{ currentData.second_test.p3.resonance_score }}</td>
-                                                        <td>{{ currentData.second_test.p4.resonance_score }}</td>
+                                                        <td v-for="(sItem, index) in scopeNameList">{{
+                                                            currentData.second_test["p" + (index +
+                                                            1)].resonance_score }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="space-x-2 justify-between items-end w-full overflow-x-auto">
+                                            <table class="table-auto border-collapse border text-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border">雙方志趣觀點</th>
+                                                        <th class="border" v-for="sName in scopeNameList">{{
+                                                            sName.verbose_name }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="border">
+                                                            質能付出貢獻指數
+                                                        </td>
+                                                        <td class="border" v-for="(sName, index) in scopeNameList">
+                                                            {{
+                                                            currentData.second_test["p" + (index+1)].comment_user_energy
+                                                            }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="border">
+                                                            問題處理
+                                                        </td>
+                                                        <td class="border" v-for="(sName, index) in scopeNameList">
+                                                            {{
+                                                            currentData.second_test["p" +
+                                                            (index+1)].comment_consensus_probability
+                                                            }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="border">
+                                                            「非理性」「情緒性」意見衝突之機率
+                                                        </td>
+                                                        <td class="border" v-for="(sName, index) in scopeNameList">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="border">
+                                                            雙方質能共振指數比
+                                                        </td>
+                                                        <td class="border" v-for="(sName, index) in scopeNameList">
+                                                            {{
+                                                            currentData.second_test["p" +
+                                                            (index+1)].comment_resonance_score
+                                                            }}
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
