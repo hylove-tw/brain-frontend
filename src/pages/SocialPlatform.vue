@@ -178,11 +178,35 @@ const sampleResponse = {
             "first_person": 79.29,
             "second_person": 79.29
         },
-        "resonance_score": {
-            "spiritual_mentality": null,
-            "scholarly_skills": null,
-            "social_connections": null,
-            "material_enjoyment": null
+        "resonance_pn_result": {
+            "spiritual_mentality": {
+                "score": 0.58,
+                "comment": {
+                    "tw": "共振效益不佳 雙方須妥協",
+                    "en": "Both sides must compromise"
+                }
+            },
+            "scholarly_skills": {
+                "score": 0.44,
+                "comment": {
+                    "tw": "共振效益不佳 雙方須妥協",
+                    "en": "Both sides must compromise"
+                }
+            },
+            "social_connections": {
+                "score": 0.67,
+                "comment": {
+                    "tw": "共振效益不佳 雙方須妥協",
+                    "en": "Both sides must compromise"
+                }
+            },
+            "material_enjoyment": {
+                "score": 0.51,
+                "comment": {
+                    "tw": "共振效益不佳 雙方須妥協",
+                    "en": "Both sides must compromise"
+                }
+            }
         },
         "resonance_percentage": {
             "natural_science": null,
@@ -397,26 +421,26 @@ const preparePayload = (filesData) => {
                                                         <td>
                                                             <div>
                                                                 {{
-                        currentData.first_test.sentiment_avg.first_person_avg
-                    }}
+                                                                    currentData.first_test.sentiment_avg.first_person_avg
+                                                                }}
                                                             </div>
                                                             <div>
                                                                 {{
-                            currentData.first_test.sentiment_avg.first_person.avg_tw
-                        }}
+                                                                    currentData.first_test.sentiment_avg.first_person.avg_tw
+                                                                }}
                                                             </div>
                                                         </td>
                                                         <td>{{ fieldNameMap['first_person'] }}（A）</td>
                                                         <td>
                                                             <div>
                                                                 {{
-                        currentData.second_test.sentiment_avg.first_person_avg
-                    }}
+                                                                    currentData.second_test.sentiment_avg.first_person_avg
+                                                                }}
                                                             </div>
                                                             <div>
                                                                 {{
-                            currentData.second_test.sentiment_avg.first_person.avg_tw
-                        }}
+                                                                    currentData.second_test.sentiment_avg.first_person.avg_tw
+                                                                }}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -425,26 +449,26 @@ const preparePayload = (filesData) => {
                                                         <td>
                                                             <div>
                                                                 {{
-                        currentData.first_test.sentiment_avg.second_person_avg
-                    }}
+                                                                    currentData.first_test.sentiment_avg.second_person_avg
+                                                                }}
                                                             </div>
                                                             <div>
                                                                 {{
-                            currentData.first_test.sentiment_avg.second_person.avg_tw
-                        }}
+                                                                    currentData.first_test.sentiment_avg.second_person.avg_tw
+                                                                }}
                                                             </div>
                                                         </td>
                                                         <td>{{ fieldNameMap['second_person'] }}（B）</td>
                                                         <td>
                                                             <div>
                                                                 {{
-                        currentData.first_test.sentiment_avg.second_person_avg
-                    }}
+                                                                    currentData.first_test.sentiment_avg.second_person_avg
+                                                                }}
                                                             </div>
                                                             <div>
                                                                 {{
-                            currentData.first_test.sentiment_avg.second_person.avg_tw
-                        }}
+                                                                    currentData.first_test.sentiment_avg.second_person.avg_tw
+                                                                }}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -466,9 +490,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Innovative art</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.innovative_art
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.innovative_art
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -477,9 +501,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Innovative art</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.natural_science
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.natural_science
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -488,9 +512,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Lively and gregarious</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.lively_and_gregarious
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.lively_and_gregarious
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -501,29 +525,29 @@ const preparePayload = (filesData) => {
                                                                 <span>Logical judgment</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.logical_judgment
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.logical_judgment
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                         <td class="space-y-2">
                                                             <div class="flex flex-col">
                                                                 <span>總能量TE(Total Energy)</span>
                                                                 <span>{{ fieldNameMap.first_person }}={{
-                        currentData.second_test.tes_score.first_person
-                    }}</span>
+                                                                    currentData.second_test.tes_score.first_person
+                                                                    }}</span>
                                                                 <span>{{ fieldNameMap.second_person }}={{
-                        currentData.second_test.tes_score.second_person
-                    }}</span>
+                                                                    currentData.second_test.tes_score.second_person
+                                                                    }}</span>
                                                             </div>
                                                             <div class="flex flex-col">
                                                                 <span>情緒平均分數</span>
                                                                 <span>{{ fieldNameMap.first_person }}={{
-                        currentData.second_test.sentiment_avg.first_person_avg
-                    }}</span>
+                                                                    currentData.second_test.sentiment_avg.first_person_avg
+                                                                    }}</span>
                                                                 <span>{{ fieldNameMap.second_person }}={{
-                        currentData.second_test.sentiment_avg.second_person_avg
-                    }}</span>
+                                                                    currentData.second_test.sentiment_avg.second_person_avg
+                                                                    }}</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -532,9 +556,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Social PR</span>
                                                                 <span>
                                                                     共振百分比={{
-                            currentData.second_test.resonance_percentage.social_pr
-                            * 100
-                        }}%</span>
+                                                                        currentData.second_test.resonance_percentage.social_pr
+                                                                        * 100
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -545,9 +569,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Memory calculation</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.memory_calculation
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.memory_calculation
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -556,9 +580,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Witty response</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.witty_response
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.witty_response
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -567,9 +591,9 @@ const preparePayload = (filesData) => {
                                                                 <span>Perseverance</span>
                                                                 <span>
                                                                     共振百分比={{
-                            Math.round(currentData.second_test.resonance_percentage.perseverance
-                                * 100)
-                        }}%</span>
+                                                                        Math.round(currentData.second_test.resonance_percentage.perseverance
+                                                                            * 100)
+                                                                    }}%</span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -594,102 +618,102 @@ const preparePayload = (filesData) => {
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.first_person }}{{
-                        fieldNameMap.first_test }}{{ fieldNameMap.p }}
+                                                                fieldNameMap.first_test }}{{ fieldNameMap.p }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.first_test["p" + (index + 1)].first_user_energy
-                    }}
+                                                                currentData.first_test["p" + (index + 1)].first_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.first_person }}{{
-                        fieldNameMap.second_test }}{{ fieldNameMap.p }}
+                                                                fieldNameMap.second_test }}{{ fieldNameMap.p }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.second_test["p" + (index + 1)].first_user_energy
-                    }}
+                                                                currentData.second_test["p" + (index + 1)].first_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                        fieldNameMap.first_test }}{{ fieldNameMap.p }}
+                                                                fieldNameMap.first_test }}{{ fieldNameMap.p }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.first_test["p" + (index + 1)].second_user_energy
-                    }}
+                                                                currentData.first_test["p" + (index + 1)].second_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                        fieldNameMap.second_test }}{{ fieldNameMap.p }}
+                                                                fieldNameMap.second_test }}{{ fieldNameMap.p }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.second_test["p" + (index +
-                            1)].second_user_energy
-                    }}
+                                                                currentData.second_test["p" + (index +
+                                                                    1)].second_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <!-- r 耗損指數 -->
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.first_person }}{{
-                        fieldNameMap.first_test }}{{ fieldNameMap.r }}
+                                                                fieldNameMap.first_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.first_test["r" + (index +
-                            1)].first_user_energy
-                    }}
+                                                                currentData.first_test["r" + (index +
+                                                                    1)].first_user_energy
+                                                            }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.first_person }}{{
-                        fieldNameMap.second_test }}{{ fieldNameMap.r }}
+                                                                fieldNameMap.second_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                        currentData.second_test["r" + (index +
-                            1)].first_user_energy
+                                                                currentData.second_test["r" + (index +
+                                                                    1)].first_user_energy
                                                             }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                                                            fieldNameMap.first_test }}{{ fieldNameMap.r }}
+                                                                fieldNameMap.first_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                                                            currentData.first_test["r" + (index +
-                                                            1)].second_user_energy
+                                                                currentData.first_test["r" + (index +
+                                                                    1)].second_user_energy
                                                             }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             {{ fieldNameMap.second_person }}{{
-                                                            fieldNameMap.second_test }}{{ fieldNameMap.r }}
+                                                                fieldNameMap.second_test }}{{ fieldNameMap.r }}
                                                         </td>
                                                         <td v-for="(sItem, index) in scopeNameList">
                                                             {{
-                                                            currentData.second_test["r" + (index +
-                                                            1)].second_user_energy
+                                                                currentData.second_test["r" + (index +
+                                                                    1)].second_user_energy
                                                             }}
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>雙方會談質能共振指數比</td>
                                                         <td v-for="(sItem, index) in scopeNameList">{{
-                                                            currentData.second_test["p" + (index +
-                                                            1)].resonance_score }}</td>
+                                                            currentData.second_test.resonance_pn_result[scopeNameList[index].key].score
+                                                        }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -711,7 +735,8 @@ const preparePayload = (filesData) => {
                                                         </td>
                                                         <td class="border" v-for="(sName, index) in scopeNameList">
                                                             {{
-                                                            currentData.second_test["p" + (index+1)].comment_user_energy
+                                                                currentData.second_test["p" + (index +
+                                                                    1)].comment_user_energy
                                                             }}
                                                         </td>
                                                     </tr>
@@ -721,8 +746,8 @@ const preparePayload = (filesData) => {
                                                         </td>
                                                         <td class="border" v-for="(sName, index) in scopeNameList">
                                                             {{
-                                                            currentData.second_test["p" +
-                                                            (index+1)].comment_consensus_probability
+                                                                currentData.second_test["p" +
+                                                                    (index + 1)].comment_consensus_probability
                                                             }}
                                                         </td>
                                                     </tr>
@@ -731,14 +756,14 @@ const preparePayload = (filesData) => {
                                                             「非理性」「情緒性」意見衝突之機率
                                                         </td>
                                                         <td class="border" v-for="(sName, index) in scopeNameList">
-                                                            <p>{{fieldNameMap.first_person}}約: {{
+                                                            <p>{{ fieldNameMap.first_person }}約: {{
                                                                 currentData.second_test["r" +
-                                                                (index+1)].aupn
-                                                                }}</p>
-                                                            <p>{{fieldNameMap.second_person}}約: {{
+                                                                    (index + 1)].aupn
+                                                            }}</p>
+                                                            <p>{{ fieldNameMap.second_person }}約: {{
                                                                 currentData.second_test["r" +
-                                                                (index+1)].bupn
-                                                                }}</p>
+                                                                    (index + 1)].bupn
+                                                            }}</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -747,8 +772,7 @@ const preparePayload = (filesData) => {
                                                         </td>
                                                         <td class="border" v-for="(sName, index) in scopeNameList">
                                                             {{
-                                                            currentData.second_test["p" +
-                                                            (index+1)].comment_resonance_score
+                                                                currentData.second_test.resonance_pn_result[scopeNameList[index].key].comment.tw
                                                             }}
                                                         </td>
                                                     </tr>
